@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ProviderFunding.Web", "SFA.DAS.ProviderFunding.Web\SFA.DAS.ProviderFunding.Web.csproj", "{44E107DB-80E9-4494-B869-74749B85CE58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44E107DB-80E9-4494-B869-74749B85CE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E107DB-80E9-4494-B869-74749B85CE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E107DB-80E9-4494-B869-74749B85CE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E107DB-80E9-4494-B869-74749B85CE58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85E6D27F-ADD5-4D4A-A66B-FD3112FB227B}
+	EndGlobalSection
+EndGlobal
