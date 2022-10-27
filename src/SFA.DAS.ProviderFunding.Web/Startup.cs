@@ -112,7 +112,7 @@ namespace SFA.DAS.ProviderFunding.Web
                 options.Cookie.IsEssential = true;
             });
 
-            services.AddApplicationInsightsTelemetry(_configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            services.AddApplicationInsightsTelemetry();
 
             services.AddLogging();
 #if DEBUG
