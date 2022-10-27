@@ -1,5 +1,6 @@
-@{
-    Layout = "_Layout.cshtml";
+﻿@{
+    // ReSharper disable once Razor.LayoutNotResolved From shared provider library
+    Layout = "_Layout";
 }
 
 @RenderBody()
@@ -12,17 +13,12 @@
 
 @section breadcrumb
 {
-    @RenderSection("BackLink", required: false)
+    @RenderSection("breadcrumb", required: false)
 }
 
 @section Scripts
 {
-    <script src="/libs/jquery/jquery.min.js"></script>
-    <script src="/lib/jquery-are-you-sure/jquery.are-you-sure.js" no-cdn></script>
-    
+    @RenderSection("Scripts", required: false)
     <script src="libs/accessible-autocomplete/accessible-autocomplete.min.js"></script>
-    <script src="/javascripts/application.js" no-cdn></script>
-
-    @RenderSection("FooterJS", required: false)
-
+    <script src="/js/app.js" no-cdn></script>
 }

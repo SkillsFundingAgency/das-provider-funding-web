@@ -1,15 +1,6 @@
-@using Esfa.Recruit.Provider.Web.ViewModels
-@using Esfa.Recruit.Vacancies.Client.Domain.Extensions
-@using Esfa.Recruit.Shared.Web.Configuration
-@using Esfa.Recruit.Shared.Web.Extensions
-@using Esfa.Recruit.Shared.Web.ViewModels
-@using Esfa.Recruit.Shared.Web.Views
-@using Humanizer;
-@using Esfa.Recruit.Vacancies.Client.Application.Configuration
-@using Esfa.Recruit.Vacancies.Client.Domain.Entities
-@inject ServiceParameters _serviceParameters
+@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Options
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@addTagHelper *, Recruit.Shared.Web
-@addTagHelper *, Esfa.Recruit.Provider.Web
-@addTagHelper *, NWebsec.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, WebEssentials.AspNetCore.CdnTagHelpers
+@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+@addTagHelper *, SFA.DAS.ProviderFunding.Web
