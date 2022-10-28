@@ -1,11 +1,11 @@
 ﻿@using SFA.DAS.ProviderFunding.Web.Extensions
-@using SFA.DAS.ProviderFunding.Infrastructure.Configuration
+@using SFA.DAS.Provider.Shared.UI.Models
 
-@inject IOptions<ProviderFunding> Options
+@inject IOptions<ZenDeskConfiguration> Options
 @{
-    var sectionId = Options.Value?.ZendeskSectionId;
-    var snippetKey = Options.Value?.ZendeskSnippetKey;
-    var coBrowsingSnippetKey = Options.Value?.ZendeskCoBrowsingSnippetKey;
+    var sectionId = Options.Value?.SectionId;
+    var snippetKey = Options.Value?.SnippetKey;
+    var coBrowsingSnippetKey = Options.Value?.CobrowsingSnippetKey;
 }
 
 <script type="text/javascript">
