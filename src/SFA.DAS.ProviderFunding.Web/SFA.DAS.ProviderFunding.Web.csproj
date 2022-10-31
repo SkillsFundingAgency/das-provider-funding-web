@@ -4,25 +4,18 @@
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="MediatR" Version="8.1.0" />
-        <PackageReference Include="mediatr.extensions.microsoft.dependencyinjection" Version="8.1.0" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="3.1.13" />
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="2.2.5" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
         <PackageReference Include="microsoft.aspnetcore.mvc.viewfeatures" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.15" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.15" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="3.1.15" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.15" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
-        <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
         <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
         <PackageReference Include="SFA.DAS.Provider.Shared.UI" Version="2.0.6" />
-        <PackageReference Include="StackExchange.Redis" Version="2.1.30" />
-        <PackageReference Include="StructureMap.Microsoft.DependencyInjection" Version="1.4.0" />
-        <PackageReference Include="SFA.DAS.NLog.Targets.Redis" Version="1.1.5" />
         <PackageReference Include="WebEssentials.AspNetCore.CdnTagHelpers" Version="1.0.21" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.13" />
     </ItemGroup>
@@ -43,9 +36,6 @@
         </Content>
         <Content Update="appsettings.Development.json">
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </Content>
-        <Content Update="nlog.config">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
     <ItemGroup>
