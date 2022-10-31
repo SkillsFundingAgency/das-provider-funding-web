@@ -9,6 +9,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
     [Authorize(Policy = nameof(PolicyNames.HasProviderAccount))]
     [SetNavigationSection(NavigationSection.EmployerDemand)]
+    [Route("{ukprn}")]
     public class HomeController : Controller
     {
         public HomeController()
@@ -16,9 +17,9 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
         }
 
         [Route("", Name = RouteNames.ProviderServiceStartDefault, Order = 0)]
-        public IActionResult Index()
+        public IActionResult Index(long ukprn)
         {
-            var ukprn = HttpContext.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn)).Value;
+            //var ukprn = HttpContext.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn)).Value;
 
             return View();
         }
