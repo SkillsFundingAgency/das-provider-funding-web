@@ -14,10 +14,6 @@ if (Context.GetRouteData().Values["Controller"].Equals("Error"))
        asp-route="@RouteNames.ProviderServiceStartDefault"
        asp-all-route-data="@backRouteData">Home</a>
 }
-else if (ViewData["ShowJSBackLink"] != null) 
-{
-    <div class="das-js-back-link"></div>
-}
 else
 {
     <div class="das-js-back-link"></div>
