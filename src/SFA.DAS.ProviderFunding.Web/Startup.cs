@@ -31,11 +31,8 @@ namespace SFA.DAS.ProviderFunding.Web
                 .AddConfiguration(configuration)
                 .SetBasePath(Directory.GetCurrentDirectory());
 #if DEBUG
-            if (!configuration["EnvironmentName"].Equals("DEV", StringComparison.CurrentCultureIgnoreCase))
-            {
                 config.AddJsonFile("appsettings.json", true)
                     .AddJsonFile("appsettings.Development.json", true);
-            }
 #endif
             config.AddEnvironmentVariables();
 
