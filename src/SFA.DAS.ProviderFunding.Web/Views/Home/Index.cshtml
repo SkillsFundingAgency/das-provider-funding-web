@@ -1,3 +1,5 @@
+@using SFA.DAS.ProviderFunding.Web.Extension
+@model SFA.DAS.ProviderFunding.Web.Models.IndicativeEarningsReportViewModel;
 @{
     ViewBag.Title = "Apps indicative earnings report";
     ViewBag.PageId = "apps-indicative-earnings-report";
@@ -32,7 +34,7 @@
     <div class="govuk-grid-column-one-half">
         <div class="das-highlight das-highlight--information">
             <h3 class="govuk-body-l govuk-!-margin-bottom-2">Total earnings</h3>
-            <p class="govuk-heading-xl govuk-!-margin-bottom-0">£2,003,234</p>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.Total.ToGdsMoneyFormat()</p>
         </div>
     </div>
 </div>
@@ -40,13 +42,13 @@
     <div class="govuk-grid-column-one-half">
         <div class="das-highlight">
             <h3 class="govuk-body-l govuk-!-margin-bottom-2">Levy earnings</h3>
-            <p class="govuk-heading-xl govuk-!-margin-bottom-0">£2,003,234</p>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.Levy.ToGdsMoneyFormat()</p>
         </div>
     </div>
     <div class="govuk-grid-column-one-half">
         <div class="das-highlight">
             <h3 class="govuk-body-l govuk-!-margin-bottom-2">Non-levy earnings</h3>
-            <p class="govuk-heading-xl govuk-!-margin-bottom-0">£2,003,234</p>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.NonLevy.ToGdsMoneyFormat()</p>
         </div>
     </div>
 </div>
@@ -55,13 +57,13 @@
     <div class="govuk-grid-column-one-half">
         <div class="das-highlight">
             <h3 class="govuk-body-l govuk-!-margin-bottom-2">Non-levy government contribution</h3>
-            <p class="govuk-heading-xl govuk-!-margin-bottom-0">£2,003,234</p>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.NonLevyGovernmentContribution.ToGdsMoneyFormat()</p>
         </div>
     </div>
     <div class="govuk-grid-column-one-half">
         <div class="das-highlight">
             <h3 class="govuk-body-l govuk-!-margin-bottom-2">Non-levy employer contribution</h3>
-            <p class="govuk-heading-xl govuk-!-margin-bottom-0">£2,003,234</p>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.NonLevyEmployerContribution.ToGdsMoneyFormat()</p>
         </div>
     </div>
 </div>
