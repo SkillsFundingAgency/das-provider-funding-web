@@ -98,6 +98,11 @@ namespace SFA.DAS.ProviderFunding.Web
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .SetZenDeskConfiguration(_configuration.GetSection("ProviderZenDeskSettings").Get<ZenDeskConfiguration>());
 
+            if (!_configuration.IsDev() && !_configuration.IsLocal())
+            {
+                services.AddHealthChecks();
+            }
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(10);
