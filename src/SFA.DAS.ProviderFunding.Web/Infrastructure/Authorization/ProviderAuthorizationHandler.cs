@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
 {
+    [ExcludeFromCodeCoverage]
     public class ProviderAuthorizationHandler : AuthorizationHandler<ProviderUkPrnRequirement>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

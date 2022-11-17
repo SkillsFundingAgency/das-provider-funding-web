@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 
 namespace SFA.DAS.ProviderFunding.Web.AppStart
 {
+    [ExcludeFromCodeCoverage]
     public static class AuthenticationProviderExtensions
     {
         public static void AddAndConfigureProviderAuthentication(this IServiceCollection services, ProviderIdams idams)

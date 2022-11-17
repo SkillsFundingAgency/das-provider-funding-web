@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -20,7 +21,7 @@ using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 
 namespace SFA.DAS.ProviderFunding.Web
 {
-
+    [ExcludeFromCodeCoverage]
     public class Startup
     {
         private readonly IConfigurationRoot _configuration;
@@ -112,6 +113,7 @@ namespace SFA.DAS.ProviderFunding.Web
 #if DEBUG
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 #endif
+            services.AddOuterApiServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

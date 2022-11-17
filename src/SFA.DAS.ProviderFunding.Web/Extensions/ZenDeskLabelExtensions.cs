@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace SFA.DAS.ProviderFunding.Web.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public static class ZenDeskLabelExtensions
     {
         public static HtmlString SetZenDeskLabels(this IHtmlHelper html, params string[] labels)

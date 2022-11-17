@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SFA.DAS.Provider.Shared.UI;
 using SFA.DAS.Provider.Shared.UI.Attributes;
-using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
+using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 using SFA.DAS.ProviderFunding.Web.Models;
+using SFA.DAS.ProviderFunding.Web.Services;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
@@ -13,23 +15,26 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
     [Route("{ukprn}")]
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly IProviderEarningsService _service;
+
+        public HomeController(IProviderEarningsService service)
         {
+            _service = service;
         }
 
         [Route("", Name = RouteNames.ProviderServiceStartDefault, Order = 0)]
-        public IActionResult Index(long ukprn)
+        public async Task<IActionResult> Index(long ukprn)
         {
-            // var ukprn = HttpContext.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn)).Value;
+            var data = await _service.GetSummary(ukprn);
+
             var model = new IndicativeEarningsReportViewModel
             {
-                Total = 2825558,
-                Levy = 1412453,
-                NonLevy = 701003,
-                NonLevyGovernmentContribution = 670952,
-                NonLevyEmployerContribution = 41150
+                Total = data.TotalEarningsForCurrentAcademicYear,
+                Levy = data.TotalLevyEarningsForCurrentAcademicYear,
+                NonLevy = data.TotalNonLevyEarningsForCurrentAcademicYear,
+                NonLevyGovernmentContribution = data.TotalNonLevyGovernmentContributionForCurrentAcademicYear,
+                NonLevyEmployerContribution = data.TotalNonLevyEmployerContributionForCurrentAcademicYear
             };
-
 
             return View(model);
         }
