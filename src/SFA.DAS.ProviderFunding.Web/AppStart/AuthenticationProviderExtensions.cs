@@ -1,15 +1,14 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.WsFederation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
+using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.WsFederation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using SFA.DAS.ProviderFunding.Infrastructure;
-using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
-using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 
 namespace SFA.DAS.ProviderFunding.Web.AppStart
 {

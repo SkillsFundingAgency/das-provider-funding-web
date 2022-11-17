@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ProviderFunding.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SFA.DAS.ProviderFunding.Infrastructure", "SFA.DAS.ProviderFunding.Infrastructure\SFA.DAS.ProviderFunding.Infrastructure.csproj", "{69F4F100-AD11-4CE6-8B2F-DDE0D902DCF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderFunding.Web.Tests", "SFA.DAS.ProviderFunding.Web.Tests\SFA.DAS.ProviderFunding.Web.Tests.csproj", "{55080E05-7081-4DED-A9A8-7DE0F552B078}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SFA.DAS.ProviderFunding.Web.UnitTests", "SFA.DAS.ProviderFunding.Web.UnitTests\SFA.DAS.ProviderFunding.Web.UnitTests.csproj", "{55080E05-7081-4DED-A9A8-7DE0F552B078}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
