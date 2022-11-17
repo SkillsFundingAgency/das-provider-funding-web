@@ -8,7 +8,7 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests
         [Test]
         public void ToGdsMoneyAmount_FormatsDecimalValue()
         {
-            var expected = HttpUtility.HtmlEncode("£1,234,567.89");
+            const string expected = "&#163;1,234,567.89"; // £163;1,234,567.89
             var actual = HttpUtility.HtmlEncode((1234567.89m).ToGdsMoneyFormat());
 
             Assert.That(actual, Is.EqualTo(expected));
