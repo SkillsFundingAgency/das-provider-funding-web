@@ -36,7 +36,6 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
                 {
                     options.MetadataAddress = idams.MetadataAddress;
                     options.Wtrealm = idams.Wtrealm;
-                    options.CallbackPath = "/{ukprn}/provider-funding";
                     options.Events.OnSecurityTokenValidated = async (ctx) =>
                     {
                         await PopulateProviderClaims(ctx.HttpContext, ctx.Principal);
