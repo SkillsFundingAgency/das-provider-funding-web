@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.WsFederation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Logging;
 using SFA.DAS.ProviderFunding.Infrastructure;
 using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
@@ -16,6 +17,8 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
     {
         public static void AddAndConfigureProviderAuthentication(this IServiceCollection services, ProviderIdams idams)
         {
+            IdentityModelEventSource.ShowPII = true;
+
             var cookieOptions = new Action<CookieAuthenticationOptions>(options =>
             {
                 options.CookieManager = new ChunkingCookieManager { ChunkSize = 3000 };
