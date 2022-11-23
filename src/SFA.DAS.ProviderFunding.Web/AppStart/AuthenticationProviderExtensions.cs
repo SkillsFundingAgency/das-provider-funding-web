@@ -17,8 +17,6 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
     {
         public static void AddAndConfigureProviderAuthentication(this IServiceCollection services, ProviderIdams idams)
         {
-            IdentityModelEventSource.ShowPII = true;
-
             var cookieOptions = new Action<CookieAuthenticationOptions>(options =>
             {
                 options.CookieManager = new ChunkingCookieManager { ChunkSize = 3000 };
