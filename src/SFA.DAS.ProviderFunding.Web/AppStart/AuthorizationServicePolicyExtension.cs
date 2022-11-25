@@ -21,8 +21,8 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
                     , policy =>
                     {
                         policy.RequireAuthenticatedUser();
-                        policy.RequireClaim(ProviderClaims.ProviderUkprn);
-                        policy.RequireClaim(ProviderClaims.Service, ProviderDaa, ProviderDab, ProviderDac, ProviderDav);
+                        //policy.RequireClaim(ProviderClaims.ProviderUkprn);
+                        //policy.RequireClaim(ProviderClaims.Service, ProviderDaa, ProviderDab, ProviderDac, ProviderDav);
                         policy.Requirements.Add(new ProviderUkPrnRequirement());
                     });
             });
