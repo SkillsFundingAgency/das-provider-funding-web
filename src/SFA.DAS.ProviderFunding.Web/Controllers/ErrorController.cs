@@ -4,11 +4,12 @@ using SFA.DAS.Provider.Shared.UI.Attributes;
 
 namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
-    [AllowAnonymous]
+    
     [HideNavigationBar(hideAccountHeader: false, hideNavigationLinks: true)]
+    [Route("[controller]")]
     public class ErrorController : Controller
     {
-        [Route("error/{statuscode?}")]
+        [Route("{statusCode?}")]
         public IActionResult Error(int? statusCode)
         {
             switch (statusCode)
