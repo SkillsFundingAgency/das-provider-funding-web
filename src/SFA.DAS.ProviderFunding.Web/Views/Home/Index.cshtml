@@ -15,11 +15,5 @@
         <div class="govuk-inset-text">
             <p class="govuk-body">This report has moved from the Submit Learner Data platform.</p>
         </div>
-        <ul>
-        @foreach (var claim in User.Identities.First().Claims)
-        {
-            <li>@claim.Type @claim.Value</li>
-        }
-        </ul>
     </div>
 </div>
