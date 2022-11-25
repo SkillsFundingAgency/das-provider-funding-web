@@ -22,6 +22,10 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
                 options.CookieManager = new ChunkingCookieManager { ChunkSize = 3000 };
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.AccessDeniedPath = "/error/403";
+                options.Cookie.Name = $"SFA.DAS.ProviderFunding.Web.Auth";
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.SlidingExpiration = true;
+                options.Cookie.SameSite = SameSiteMode.None;
             });
 
             services.AddAuthentication(sharedOptions =>
