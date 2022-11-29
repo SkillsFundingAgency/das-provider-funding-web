@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.WsFederation;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +6,15 @@ using Microsoft.IdentityModel.Logging;
 using SFA.DAS.ProviderFunding.Infrastructure;
 using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SFA.DAS.ProviderFunding.Web.AppStart
 {
+    [ExcludeFromCodeCoverage]
     public static class AuthenticationProviderExtensions
     {
         public static void AddAndConfigureProviderAuthentication(this IServiceCollection services, ProviderIdams idams)

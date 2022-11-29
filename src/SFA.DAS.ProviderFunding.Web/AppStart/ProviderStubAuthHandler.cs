@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 
 namespace SFA.DAS.ProviderFunding.Web.AppStart
 {
+    [ExcludeFromCodeCoverage]
     public class ProviderStubAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;

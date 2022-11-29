@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 
 namespace SFA.DAS.ProviderFunding.Web.AppStart
 {
+    [ExcludeFromCodeCoverage]
     public static class AuthorizationServicePolicyExtension
     {
 

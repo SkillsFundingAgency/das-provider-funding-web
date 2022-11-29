@@ -21,16 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Exceptions\**" />
-        <Compile Remove="Pages\**" />
-        <Content Remove="Exceptions\**" />
-        <Content Remove="Pages\**" />
-        <EmbeddedResource Remove="Exceptions\**" />
-        <EmbeddedResource Remove="Pages\**" />
-        <None Remove="Exceptions\**" />
-        <None Remove="Pages\**" />
-    </ItemGroup>
-    <ItemGroup>
         <Content Update="appsettings.json">
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </Content>

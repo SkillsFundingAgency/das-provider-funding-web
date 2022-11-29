@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace SFA.DAS.ProviderFunding.Web.TagHelpers
 {
+    [ExcludeFromCodeCoverage]
     [HtmlTargetElement("a", Attributes = "asp-querystring")]
     public class ExtendedAnchorTagHelper : AnchorTagHelper
     {

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace SFA.DAS.ProviderFunding.Web.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public static class HealthCheckResponseWriter
     {
         public static Task WriteJsonResponse(HttpContext httpContext, HealthReport result)

@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 
 namespace SFA.DAS.ProviderFunding.Web.Infrastructure
 {
+    [ExcludeFromCodeCoverage]
     public static class ConfigurationExtensions
     {
         public static bool IsDev(this IConfiguration configuration)

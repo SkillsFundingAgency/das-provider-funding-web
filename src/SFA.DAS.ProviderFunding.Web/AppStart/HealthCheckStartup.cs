@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using SFA.DAS.ProviderFunding.Web.AppStart;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SFA.DAS.ProviderFunding.Web.AppStart
 {
+    [ExcludeFromCodeCoverage]
     public static class HealthCheckStartup
     {
         public static IApplicationBuilder UseHealthChecks(this IApplicationBuilder app)
