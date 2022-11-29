@@ -22,34 +22,14 @@ using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 namespace SFA.DAS.ProviderFunding.Web
 {
     [ExcludeFromCodeCoverage]
-    public class Startup
+    public class ApplicationStartup
     {
-        private readonly IConfigurationRoot _configuration;
+        private readonly IConfiguration _configuration;
 
-        public Startup(IConfiguration configuration)
+        public ApplicationStartup(IConfiguration configuration, IWebHostEnvironment environment)
         {
-            var config = new ConfigurationBuilder()
-                .AddConfiguration(configuration)
-                .SetBasePath(Directory.GetCurrentDirectory());
-#if DEBUG
-                config.AddJsonFile("appsettings.json", true)
-                    .AddJsonFile("appsettings.Development.json", true);
-#endif
-            config.AddEnvironmentVariables();
 
-            if (!configuration["EnvironmentName"].Equals("DEV", StringComparison.CurrentCultureIgnoreCase))
-            {
-                config.AddAzureTableStorage(options =>
-                    {
-                        options.ConfigurationKeys = configuration["ConfigNames"].Split(",");
-                        options.StorageConnectionString = configuration["ConfigurationStorageConnectionString"];
-                        options.EnvironmentName = configuration["EnvironmentName"];
-                        options.PreFixConfigurationKeys = false;
-                    }
-                );
-            }
-
-            _configuration = config.Build();
+            _configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -96,7 +76,6 @@ namespace SFA.DAS.ProviderFunding.Web
                 })
                 .SetDefaultNavigationSection(NavigationSection.Home)
                 .EnableGoogleAnalytics()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0)
                 .SetZenDeskConfiguration(_configuration.GetSection("ProviderZenDeskSettings").Get<ZenDeskConfiguration>());
 
             if (!_configuration.IsDev() && !_configuration.IsLocal())
@@ -160,10 +139,10 @@ namespace SFA.DAS.ProviderFunding.Web
                     await next();
                 }
             });
-
+            
+            app.UseAuthentication();
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(builder =>

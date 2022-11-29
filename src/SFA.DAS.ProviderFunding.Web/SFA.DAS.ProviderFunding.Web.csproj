@@ -5,19 +5,19 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="3.1.13" />
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="2.2.5" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="6.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.9" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
         <PackageReference Include="microsoft.aspnetcore.mvc.viewfeatures" Version="2.2.0" />
         <PackageReference Include="Microsoft.AspNetCore.Rewrite" Version="2.2.0" />
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="3.1.15" />
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="3.1.15" />
-        <PackageReference Include="Microsoft.Extensions.Options" Version="3.1.15" />
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions" Version="6.0.11" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
         <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
         <PackageReference Include="SFA.DAS.Provider.Shared.UI" Version="2.0.6" />
         <PackageReference Include="WebEssentials.AspNetCore.CdnTagHelpers" Version="1.0.21" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.13" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.11" />
     </ItemGroup>
 
     <ItemGroup>
@@ -30,5 +30,13 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\SFA.DAS.ProviderFunding.Infrastructure\SFA.DAS.ProviderFunding.Infrastructure.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Models\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="Views\Error\403.cshtml" />
+      <None Include="Views\Error\404.cshtml" />
+      <None Include="Views\Error\Error.cshtml" />
     </ItemGroup>
 </Project>
