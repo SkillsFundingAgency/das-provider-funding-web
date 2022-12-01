@@ -26,7 +26,7 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure
         {
             serviceCollection.AddTransient(s =>
             {
-                var settings = s.GetService<IOptions<ProviderFundingApiOptions>>()?.Value;
+                var settings = s.GetService<IOptions<FundingOuterApiOptions>>()?.Value;
 
                 var clientBuilder = new HttpClientBuilder()
                     .WithDefaultHeaders()

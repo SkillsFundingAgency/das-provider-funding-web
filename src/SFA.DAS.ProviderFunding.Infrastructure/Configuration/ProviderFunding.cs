@@ -4,7 +4,7 @@ using SFA.DAS.Http.Configuration;
 namespace SFA.DAS.ProviderFunding.Infrastructure.Configuration
 {
     [ExcludeFromCodeCoverage]
-    public class ProviderFundingApiOptions : IApimClientConfiguration
+    public class FundingOuterApiOptions : IApimClientConfiguration
     {
         public string ApiBaseUrl { get; set; }
         public string SubscriptionKey { get; set; }
