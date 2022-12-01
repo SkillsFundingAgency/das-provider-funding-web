@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using SFA.DAS.Configuration.AzureTableStorage;
 
 namespace SFA.DAS.ProviderFunding.Web
 {
+    [ExcludeFromCodeCoverage]
     public static class ConfigurationStartup
     {
         public static IWebHostBuilder ConfigureAzureTableConfiguration(this IWebHostBuilder hostBuilder)

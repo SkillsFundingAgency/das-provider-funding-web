@@ -1,5 +1,8 @@
-﻿namespace SFA.DAS.ProviderFunding.Infrastructure.Configuration
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SFA.DAS.ProviderFunding.Infrastructure.Configuration
 {
+    [ExcludeFromCodeCoverage]
     public class ProviderIdams
     {
         public string MetadataAddress { get; set; }
