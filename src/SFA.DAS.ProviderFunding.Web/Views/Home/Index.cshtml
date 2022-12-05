@@ -1,0 +1,71 @@
+@using SFA.DAS.ProviderFunding.Web.Extension
+@model SFA.DAS.ProviderFunding.Web.Models.IndicativeEarningsReportViewModel;
+@{
+    ViewBag.Title = "Apps indicative earnings report";
+    ViewBag.PageId = "apps-indicative-earnings-report";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-xl">Apps indicative earnings report</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p>This report should help you:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>understand how much you can expect to be paid</li>
+            <li>reconcile your internal forecasts</li>
+        </ul>
+        <p>It is only an estimate, based on the data you have entered into the Apprenticeship service.</p>
+        <div class="govuk-inset-text">
+            <p class="govuk-body">This report has moved from the Submit Learner Data platform.</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <h2 class="govuk-heading-m">Download summary report</h2>
+        <p class="govuk-body">This is a high level overview report that shows total expected monthly income by learner for this academic year.</p>
+        <a target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/18wvhAs7BNW8h45iAeRCrZlHJN_aViozdGysMCkz3ZE4/edit?usp=sharing" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Download CSV Summary report</a>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-0">Expected total on-programme earnings in current academic year (2022 to 2023)</h2>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        <div class="das-highlight das-highlight--information">
+            <h3 class="govuk-body-l govuk-!-margin-bottom-2">Total earnings</h3>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.Total.ToGdsMoneyFormat()</p>
+        </div>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        <div class="das-highlight">
+            <h3 class="govuk-body-l govuk-!-margin-bottom-2">Levy earnings</h3>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.Levy.ToGdsMoneyFormat()</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-half">
+        <div class="das-highlight">
+            <h3 class="govuk-body-l govuk-!-margin-bottom-2">Non-levy earnings</h3>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.NonLevy.ToGdsMoneyFormat()</p>
+        </div>
+    </div>
+</div>
+<section class="das-hide">@* todo: get rid of this <section></section>*@
+<h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-0">Non-levy breakdown</h2>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+        <div class="das-highlight">
+            <h3 class="govuk-body-l govuk-!-margin-bottom-2">Non-levy government contribution</h3>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.NonLevyGovernmentContribution.ToGdsMoneyFormat()</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-half">
+        <div class="das-highlight">
+            <h3 class="govuk-body-l govuk-!-margin-bottom-2">Non-levy employer contribution</h3>
+            <p class="govuk-heading-xl govuk-!-margin-bottom-0">@Model.NonLevyEmployerContribution.ToGdsMoneyFormat()</p>
+        </div>
+    </div>
+</div>
+</section>

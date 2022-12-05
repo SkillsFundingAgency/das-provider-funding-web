@@ -1,0 +1,23 @@
+@using SFA.DAS.ProviderFunding.Web.Infrastructure
+
+@{
+    Dictionary<string, string> backRouteData = null;
+    if (ViewData.TryGetValue("BackRouteData", out var tempBackRouteData))
+    {
+        backRouteData = tempBackRouteData as Dictionary<string, string>;
+    }
+}
+
+if (Context.GetRouteData().Values["Controller"].Equals("Error"))
+{
+    <a class="govuk-link govuk-link--no-visited-state"
+       asp-route="@RouteNames.ProviderServiceStartDefault"
+       asp-all-route-data="@backRouteData">Home</a>
+}
+else
+{
+    <div class="das-js-back-link"></div>
+}
+
+
+
