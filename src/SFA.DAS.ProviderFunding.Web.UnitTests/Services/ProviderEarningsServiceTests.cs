@@ -29,7 +29,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
         {
             // Arrange
             var ukprn = _fixture.Create<long>();
-            var expected = _fixture.Create<ProviderEarningsSummaryDto>();
+            var expected = _fixture.Create<GetProviderEarningsSummaryResponse>();
 
             _mockHttp.When($"{OuterApiBaseAddress}/{ukprn}/summary")
                 .Respond("application/json", JsonSerializer.Serialize(expected));
@@ -38,7 +38,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
             var actual = await _sut.GetSummary(ukprn);
 
             // Assert
-            actual.Should().BeEquivalentTo(expected);
+            actual.Should().BeEquivalentTo(expected.Summary);
         }
 
     }

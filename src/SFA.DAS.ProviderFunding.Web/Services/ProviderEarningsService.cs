@@ -21,9 +21,9 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 
             response.EnsureSuccessStatusCode();
 
-            var data = await JsonSerializer.DeserializeAsync<ProviderEarningsSummaryDto>(await response.Content.ReadAsStreamAsync(), options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var data = await JsonSerializer.DeserializeAsync<GetProviderEarningsSummaryResponse>(await response.Content.ReadAsStreamAsync(), options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-            return data;
+            return data.Summary;
         }
     }
 }
