@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
-    [Authorize(Policy = nameof(PolicyNames.HasProviderAccount))]
+   // [Authorize(Policy = nameof(PolicyNames.HasProviderAccount))]
     [SetNavigationSection(NavigationSection.EmployerDemand)]
     [Route("{ukprn}")]
     public class HomeController : Controller
@@ -38,5 +38,17 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
 
             return View(model);
         }
+
+        [Route("GenerateCSV")]
+        public async Task<IActionResult> GenerateCSV(long ukprn)
+        {
+            var data = await _service.GenerateCSV(ukprn);
+
+            
+
+            return View(null);
+        }
+
+
     }
 }

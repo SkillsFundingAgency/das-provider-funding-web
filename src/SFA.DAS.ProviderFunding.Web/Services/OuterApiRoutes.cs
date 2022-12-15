@@ -8,5 +8,12 @@ public static class OuterApiRoutes
         {
             return $"{ukprn}/summary";
         }
+
+        public static string GetAcademicYearEarningsCSV(long ukprn)
+        {
+            return $"{ukprn}/GenerateCSV";
+        }
+
+
     }
 }
