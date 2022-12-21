@@ -2,6 +2,6 @@
 {
     public class GetAcademicEarningsResponse
     {
-        public AcademicYearEarningsDto GenerateCSV { get; set; }
+        public AcademicYearEarningsDto AcademicYearEarnings { get; set; }
     }
 }

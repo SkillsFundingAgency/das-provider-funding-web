@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="CsvHelper" Version="30.0.1" />
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.WsFederation" Version="6.0.9" />
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.9" />
@@ -30,9 +31,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\SFA.DAS.ProviderFunding.Infrastructure\SFA.DAS.ProviderFunding.Infrastructure.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Models\" />
     </ItemGroup>
     <ItemGroup>
       <None Include="Views\Error\403.cshtml" />

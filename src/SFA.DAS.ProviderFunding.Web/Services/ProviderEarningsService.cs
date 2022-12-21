@@ -37,9 +37,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 
             var data = await JsonSerializer.DeserializeAsync<GetAcademicEarningsResponse>(await response.Content.ReadAsStreamAsync(), options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
-
-
-            return data.GenerateCSV;
+            return data.AcademicYearEarnings;
         }
 
 

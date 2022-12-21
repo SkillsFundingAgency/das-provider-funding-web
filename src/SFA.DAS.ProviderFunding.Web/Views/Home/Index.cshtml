@@ -25,11 +25,7 @@
     <div class="govuk-grid-column-one-third">
         <h2 class="govuk-heading-m">Download summary report</h2>
         <p class="govuk-body">This is a high level overview report that shows total expected monthly income by learner for this academic year.</p>
-        <a target="_blank" rel="noopener" href="@Url.Action("GenerateCSV", "Home")" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Download CSV Summary report</a>
-     
-        @*<a target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/18wvhAs7BNW8h45iAeRCrZlHJN_aViozdGysMCkz3ZE4/edit?usp=sharing" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Download CSV Summary report*@</a>
-
-        
+        <a target="_blank" rel="noopener" href="@Url.Action("GenerateCSV", "Home", new { ukprn = Model.Ukprn})" role="button" draggable="false" class="govuk-button" data-module="govuk-button">Download CSV Summary report</a>
     </div>
 </div>
 
