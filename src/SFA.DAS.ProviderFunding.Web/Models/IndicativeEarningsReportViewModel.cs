@@ -2,7 +2,7 @@ namespace SFA.DAS.ProviderFunding.Web.Models;
 
 public class IndicativeEarningsReportViewModel
 {
-    public long Ukprn { get; set; }
+  public long Ukprn { get; set; }
     public decimal Total { get; set; }
     public decimal Levy { get; set; }
     public decimal NonLevy { get; set; }
