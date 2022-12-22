@@ -41,5 +41,22 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
             actual.Should().BeEquivalentTo(expected.Summary);
         }
 
+        [Test]
+        public async Task WhenGenerateCSVDataIsReturnedFromOuterApi()
+        {
+            // Arrange
+            var ukprn = _fixture.Create<long>();
+            var expected = _fixture.Create<GetAcademicEarningsResponse>();
+
+            _mockHttp.When($"{OuterApiBaseAddress}/{ukprn}/GenerateCSV")
+                .Respond("application/json", JsonSerializer.Serialize(expected));
+
+            // Act
+            var actual = await _sut.GenerateCSV(ukprn);
+
+            // Assert
+            actual.Should().BeEquivalentTo(expected.AcademicYearEarnings);
+        }
+
     }
 }
