@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using SFA.DAS.ProviderFunding.Web.Models;
 
 namespace SFA.DAS.ProviderFunding.Web.Services
 {

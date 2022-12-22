@@ -1,6 +1,4 @@
-﻿using SFA.DAS.ProviderFunding.Web.Models;
-
-namespace SFA.DAS.ProviderFunding.Web.Services
+﻿namespace SFA.DAS.ProviderFunding.Web.Models
 {
     public class AcademicYearEarningsReport
     {
