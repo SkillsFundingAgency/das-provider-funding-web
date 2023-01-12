@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SFA.DAS.ProviderFunding.Web.Controllers;
@@ -44,6 +45,24 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             actual.NonLevy.Should().Be(expected.TotalNonLevyEarningsForCurrentAcademicYear);
             actual.NonLevyEmployerContribution.Should().Be(expected.TotalNonLevyEmployerContributionForCurrentAcademicYear);
             actual.NonLevyGovernmentContribution.Should().Be(expected.TotalNonLevyGovernmentContributionForCurrentAcademicYear);
+        }
+
+
+        [Test]
+        public async Task WhenGenerateCSVDataIsReturned()
+        {
+            // Arrange
+            var ukprn = _fixture.Create<long>();
+            var expected = _fixture.Create<AcademicYearEarningsDto>();
+
+            _serviceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expected);
+
+            // Act
+            var result = (FileStreamResult)await _sut.GenerateCSV(ukprn);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsInstanceOf<FileStreamResult>(result);
         }
     }
 }

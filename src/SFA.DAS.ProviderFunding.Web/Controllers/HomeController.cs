@@ -1,12 +1,21 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using SFA.DAS.Provider.Shared.UI;
 using SFA.DAS.Provider.Shared.UI.Attributes;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
+using System.Collections.Generic;
+using System.Formats.Asn1;
+using System.Globalization;
+using System.IO;
+using System;
 using System.Threading.Tasks;
+using CsvHelper;
+using System.Text;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
@@ -16,6 +25,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IProviderEarningsService _service;
+       
 
         public HomeController(IProviderEarningsService service)
         {
@@ -29,6 +39,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
 
             var model = new IndicativeEarningsReportViewModel
             {
+                Ukprn = ukprn,
                 Total = data.TotalEarningsForCurrentAcademicYear,
                 Levy = data.TotalLevyEarningsForCurrentAcademicYear,
                 NonLevy = data.TotalNonLevyEarningsForCurrentAcademicYear,
@@ -38,5 +49,26 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
 
             return View(model);
         }
+
+        [Route("GenerateCSV", Name = RouteNames.GenerateCSV)] 
+        public async Task<IActionResult> GenerateCSV(long ukprn)
+        { 
+            var data = await _service.GetDetails(ukprn);
+          
+           
+            var memoryStream = new MemoryStream();
+            var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true);
+            
+            using (var csvWriter = new CsvWriter(streamWriter,CultureInfo.InvariantCulture))
+            {
+                csvWriter.WriteRecords(AcademicYearEarningsReportBuilder.Build(data));
+            }
+
+            memoryStream.Position = 0;
+
+            return File(memoryStream, "text/csv", "AcademicEarningsReport.csv");
+        }
+
+
     }
 }
