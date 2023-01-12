@@ -4,9 +4,9 @@ using SFA.DAS.ProviderFunding.Web.Models;
 
 namespace SFA.DAS.ProviderFunding.Web.Services
 {
-    public class CSVBuilder
+    public class AcademicYearEarningsReportBuilder
     {
-        public static List<AcademicYearEarningsReport> ExportToCSV(AcademicYearEarningsDto data)
+        public static List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto data)
         {
             var Report = new List<AcademicYearEarningsReport>();
 

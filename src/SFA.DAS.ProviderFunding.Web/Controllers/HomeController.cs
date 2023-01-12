@@ -61,7 +61,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
             
             using (var csvWriter = new CsvWriter(streamWriter,CultureInfo.InvariantCulture))
             {
-                csvWriter.WriteRecords(CSVBuilder.ExportToCSV(data));
+                csvWriter.WriteRecords(AcademicYearEarningsReportBuilder.Build(data));
             }
 
             memoryStream.Position = 0;
