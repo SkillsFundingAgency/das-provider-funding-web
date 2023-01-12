@@ -7,5 +7,4 @@ public class ProviderEarningsSummaryDto
     public decimal TotalNonLevyEarningsForCurrentAcademicYear { get; set; }
     public decimal TotalNonLevyGovernmentContributionForCurrentAcademicYear { get; set; }
     public decimal TotalNonLevyEmployerContributionForCurrentAcademicYear { get; set; }
-    public long UKprn { get; set; }
 }

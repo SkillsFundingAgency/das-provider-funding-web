@@ -42,17 +42,17 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
         }
 
         [Test]
-        public async Task WhenGenerateCSVDataIsReturnedFromOuterApi()
+        public async Task WhenGetDetailsThenDataIsReturnedFromOuterApi()
         {
             // Arrange
             var ukprn = _fixture.Create<long>();
             var expected = _fixture.Create<GetAcademicEarningsResponse>();
 
-            _mockHttp.When($"{OuterApiBaseAddress}/{ukprn}/GenerateCSV")
+            _mockHttp.When($"{OuterApiBaseAddress}/{ukprn}")
                 .Respond("application/json", JsonSerializer.Serialize(expected));
 
             // Act
-            var actual = await _sut.GenerateCSV(ukprn);
+            var actual = await _sut.GetDetails(ukprn);
 
             // Assert
             actual.Should().BeEquivalentTo(expected.AcademicYearEarnings);

@@ -9,9 +9,9 @@ public static class OuterApiRoutes
             return $"{ukprn}/summary";
         }
 
-        public static string GetAcademicYearEarningsCSV(long ukprn)
+        public static string GetAcademicYearEarnings(long ukprn)
         {
-            return $"{ukprn}/GenerateCSV";
+            return $"{ukprn}";
         }
 
 

@@ -55,7 +55,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             var ukprn = _fixture.Create<long>();
             var expected = _fixture.Create<AcademicYearEarningsDto>();
 
-            _serviceMock.Setup(_ => _.GenerateCSV(ukprn)).ReturnsAsync(expected);
+            _serviceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expected);
 
             // Act
             var result = (FileStreamResult)await _sut.GenerateCSV(ukprn);

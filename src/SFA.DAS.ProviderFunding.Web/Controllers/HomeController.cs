@@ -39,7 +39,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
 
             var model = new IndicativeEarningsReportViewModel
             {
-                Ukprn = data.UKprn,
+                Ukprn = ukprn,
                 Total = data.TotalEarningsForCurrentAcademicYear,
                 Levy = data.TotalLevyEarningsForCurrentAcademicYear,
                 NonLevy = data.TotalNonLevyEarningsForCurrentAcademicYear,
@@ -53,7 +53,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
         [Route("GenerateCSV", Name = RouteNames.GenerateCSV)] 
         public async Task<IActionResult> GenerateCSV(long ukprn)
         { 
-            var data = await _service.GenerateCSV(ukprn);
+            var data = await _service.GetDetails(ukprn);
           
            
             var memoryStream = new MemoryStream();

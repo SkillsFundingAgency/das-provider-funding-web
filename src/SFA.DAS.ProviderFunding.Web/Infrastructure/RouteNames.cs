@@ -8,6 +8,6 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure
         public const string ProviderServiceStartDefault = "default";
 
         public const string ProviderSignOut = "provider-signout";
-        public const string GenerateCSV = "GenerateCSV";
+        public const string GenerateCSV = "GetDetails";
     }
 }

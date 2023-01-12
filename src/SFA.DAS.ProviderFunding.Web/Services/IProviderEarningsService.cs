@@ -6,5 +6,5 @@ public interface IProviderEarningsService
 {
     Task<ProviderEarningsSummaryDto> GetSummary(long ukprn);
 
-    Task<AcademicYearEarningsDto> GenerateCSV(long ukprn);
+    Task<AcademicYearEarningsDto> GetDetails(long ukprn);
 }
