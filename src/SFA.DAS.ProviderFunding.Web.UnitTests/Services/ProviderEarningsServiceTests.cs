@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
             var ukprn = _fixture.Create<long>();
             var expected = _fixture.Create<GetAcademicEarningsResponse>();
 
-            _mockHttp.When($"{OuterApiBaseAddress}/{ukprn}")
+            _mockHttp.When($"{OuterApiBaseAddress}/{ukprn}/detail")
                 .Respond("application/json", JsonSerializer.Serialize(expected));
 
             // Act

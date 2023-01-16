@@ -11,7 +11,7 @@ public static class OuterApiRoutes
 
         public static string GetAcademicYearEarnings(long ukprn)
         {
-            return $"{ukprn}";
+            return $"{ukprn}/detail";
         }
 
 
