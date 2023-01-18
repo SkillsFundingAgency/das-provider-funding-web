@@ -18,6 +18,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
                     FamilyName = "FamilyName",
                     GivenName = "GivenName",
                     UinqueLearningNumber = learner.Uln,
+                    FundingType = learner.FundingType,
                     OnProgrammeEarnings_Jan = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 1)?.Amount ?? 0,
                     OnProgrammeEarnings_Feb = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 2)?.Amount ?? 0,
                     OnProgrammeEarnings_Mar = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 3)?.Amount ?? 0,
