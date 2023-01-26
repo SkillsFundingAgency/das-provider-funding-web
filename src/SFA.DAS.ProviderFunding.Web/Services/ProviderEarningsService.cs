@@ -25,5 +25,21 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 
             return data.Summary;
         }
+
+
+        public async Task<AcademicYearEarningsDto> GetDetails(long ukprn)
+        {
+            var url = OuterApiRoutes.Provider.GetAcademicYearEarnings(ukprn);
+
+            using var response = await _client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+
+            response.EnsureSuccessStatusCode();
+
+            var data = await JsonSerializer.DeserializeAsync<GetAcademicEarningsResponse>(await response.Content.ReadAsStreamAsync(), options: new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return data.AcademicYearEarnings;
+        }
+
+
+
     }
 }
