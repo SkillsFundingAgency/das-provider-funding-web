@@ -8,5 +8,12 @@ public static class OuterApiRoutes
         {
             return $"{ukprn}/summary";
         }
+
+        public static string GetAcademicYearEarnings(long ukprn)
+        {
+            return $"{ukprn}/detail";
+        }
+
+
     }
 }
