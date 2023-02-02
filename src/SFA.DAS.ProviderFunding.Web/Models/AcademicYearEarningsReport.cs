@@ -4,7 +4,7 @@
     {
         public string FamilyName { get; set; }
         public string GivenName { get; set; }
-        public string UinqueLearningNumber { get; set; }
+        public string UniqueLearningNumber { get; set; }
         public FundingType FundingType { get; set; }
         public decimal OnProgrammeEarnings_Jan { get; set; }
         public decimal OnProgrammeEarnings_Feb { get; set; }

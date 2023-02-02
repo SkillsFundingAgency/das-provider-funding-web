@@ -18,6 +18,7 @@ using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
 using SFA.DAS.ProviderFunding.Web.AppStart;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
+using SFA.DAS.ProviderFunding.Web.Services;
 
 namespace SFA.DAS.ProviderFunding.Web
 {
@@ -43,6 +44,7 @@ namespace SFA.DAS.ProviderFunding.Web
             services.AddConfigurationOptions(_configuration);
 
             services.AddSingleton<IAuthorizationHandler, ProviderAuthorizationHandler>();
+            services.AddScoped<IAcademicYearEarningsReportDataValidator, AcademicYearEarningsReportDataValidator>();
 
             services.AddProviderUiServiceRegistration(_configuration);
 

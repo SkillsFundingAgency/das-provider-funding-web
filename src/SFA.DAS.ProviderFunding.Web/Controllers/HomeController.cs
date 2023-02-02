@@ -1,21 +1,16 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using SFA.DAS.Provider.Shared.UI;
 using SFA.DAS.Provider.Shared.UI.Attributes;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
-using System.Collections.Generic;
-using System.Formats.Asn1;
 using System.Globalization;
 using System.IO;
-using System;
 using System.Threading.Tasks;
 using CsvHelper;
 using System.Text;
-using Microsoft.AspNetCore.Components.Forms;
 
 namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
@@ -24,18 +19,24 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
     [Route("{ukprn}")]
     public class HomeController : Controller
     {
-        private readonly IProviderEarningsService _service;
-       
+        private readonly IProviderEarningsService _providerEarningsService;
+        private readonly IApprenticeshipsService _apprenticeshipsService;
+        private readonly IAcademicYearEarningsReportDataValidator _academicYearEarningsReportDataValidator;
 
-        public HomeController(IProviderEarningsService service)
+        public HomeController(
+            IProviderEarningsService providerEarningsService, 
+            IApprenticeshipsService apprenticeshipsService, 
+            IAcademicYearEarningsReportDataValidator academicYearEarningsReportDataValidator)
         {
-            _service = service;
+            _providerEarningsService = providerEarningsService;
+            _apprenticeshipsService = apprenticeshipsService;
+            _academicYearEarningsReportDataValidator = academicYearEarningsReportDataValidator;
         }
 
         [Route("", Name = RouteNames.ProviderServiceStartDefault, Order = 0)]
         public async Task<IActionResult> Index(long ukprn)
         {
-            var data = await _service.GetSummary(ukprn);
+            var data = await _providerEarningsService.GetSummary(ukprn);
 
             var model = new IndicativeEarningsReportViewModel
             {
@@ -53,15 +54,20 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
         [Route("GenerateCSV", Name = RouteNames.GenerateCSV)] 
         public async Task<IActionResult> GenerateCSV(long ukprn)
         { 
-            var data = await _service.GetDetails(ukprn);
-          
-           
+            var academicYearEarningsData = await _providerEarningsService.GetDetails(ukprn);
+            var apprenticeshipsData = await _apprenticeshipsService.GetAll(ukprn);
+            var isDataValid = await _academicYearEarningsReportDataValidator.Validate(academicYearEarningsData, apprenticeshipsData);
+            if (!isDataValid)
+            {
+                //TODO: Handle this scenario
+            }
+
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true);
             
             using (var csvWriter = new CsvWriter(streamWriter,CultureInfo.InvariantCulture))
             {
-                csvWriter.WriteRecords(AcademicYearEarningsReportBuilder.Build(data));
+                csvWriter.WriteRecords(AcademicYearEarningsReportBuilder.Build(academicYearEarningsData, apprenticeshipsData));
             }
 
             memoryStream.Position = 0;

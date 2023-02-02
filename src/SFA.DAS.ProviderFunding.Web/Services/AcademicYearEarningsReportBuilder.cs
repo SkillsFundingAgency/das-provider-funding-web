@@ -6,18 +6,19 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 {
     public class AcademicYearEarningsReportBuilder
     {
-        public static List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto data)
+        public static List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
         {
-            var Report = new List<AcademicYearEarningsReport>();
+            var report = new List<AcademicYearEarningsReport>();
 
-            foreach (var learner in data.Learners)
+            var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln.ToString());
+
+            foreach (var learner in earningsData.Learners)
             {
-                Report.Add(new AcademicYearEarningsReport
+                report.Add(new AcademicYearEarningsReport
                 {
-
-                    FamilyName = "FamilyName",
-                    GivenName = "GivenName",
-                    UinqueLearningNumber = learner.Uln,
+                    FamilyName = apprenticeshipsByLearner[learner.Uln].LastName,
+                    GivenName = apprenticeshipsByLearner[learner.Uln].FirstName,
+                    UniqueLearningNumber = learner.Uln,
                     FundingType = learner.FundingType,
                     OnProgrammeEarnings_Jan = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 1)?.Amount ?? 0,
                     OnProgrammeEarnings_Feb = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 2)?.Amount ?? 0,
@@ -34,7 +35,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
                     TotalOnProgrammeEarnings = learner.TotalOnProgrammeEarnings
                 });
             }
-            return Report;
+            return report;
         }
     }
 }

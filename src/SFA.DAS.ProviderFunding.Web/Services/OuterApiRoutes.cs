@@ -2,6 +2,7 @@
 
 public static class OuterApiRoutes
 {
+    //TODO: Add route for apprenticeships API
     public static class Provider
     {
         public static string GetEarningsSummary(long ukprn)
@@ -13,7 +14,5 @@ public static class OuterApiRoutes
         {
             return $"{ukprn}/detail";
         }
-
-
     }
 }
