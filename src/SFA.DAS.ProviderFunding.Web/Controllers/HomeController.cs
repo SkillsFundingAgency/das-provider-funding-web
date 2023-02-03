@@ -21,16 +21,16 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
     {
         private readonly IProviderEarningsService _providerEarningsService;
         private readonly IApprenticeshipsService _apprenticeshipsService;
-        private readonly IAcademicYearEarningsReportDataValidator _academicYearEarningsReportDataValidator;
+        private readonly IAcademicYearEarningsReportBuilder _academicYearEarningsReportBuilder;
 
         public HomeController(
-            IProviderEarningsService providerEarningsService, 
-            IApprenticeshipsService apprenticeshipsService, 
-            IAcademicYearEarningsReportDataValidator academicYearEarningsReportDataValidator)
+            IProviderEarningsService providerEarningsService,
+            IApprenticeshipsService apprenticeshipsService,
+            IAcademicYearEarningsReportBuilder academicYearEarningsReportBuilder)
         {
             _providerEarningsService = providerEarningsService;
             _apprenticeshipsService = apprenticeshipsService;
-            _academicYearEarningsReportDataValidator = academicYearEarningsReportDataValidator;
+            _academicYearEarningsReportBuilder = academicYearEarningsReportBuilder;
         }
 
         [Route("", Name = RouteNames.ProviderServiceStartDefault, Order = 0)]
@@ -51,30 +51,24 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
             return View(model);
         }
 
-        [Route("GenerateCSV", Name = RouteNames.GenerateCSV)] 
+        [Route("GenerateCSV", Name = RouteNames.GenerateCSV)]
         public async Task<IActionResult> GenerateCSV(long ukprn)
-        { 
+        {
             var academicYearEarningsData = await _providerEarningsService.GetDetails(ukprn);
             var apprenticeshipsData = await _apprenticeshipsService.GetAll(ukprn);
-            var isDataValid = await _academicYearEarningsReportDataValidator.Validate(academicYearEarningsData, apprenticeshipsData);
-            if (!isDataValid)
-            {
-                //TODO: Handle this scenario
-            }
 
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true);
-            
-            using (var csvWriter = new CsvWriter(streamWriter,CultureInfo.InvariantCulture))
+
+            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
             {
-                csvWriter.WriteRecords(AcademicYearEarningsReportBuilder.Build(academicYearEarningsData, apprenticeshipsData));
+                var report = await _academicYearEarningsReportBuilder.BuildAsync(academicYearEarningsData, apprenticeshipsData);
+                csvWriter.WriteRecords(report);
             }
 
             memoryStream.Position = 0;
 
             return File(memoryStream, "text/csv", "AcademicEarningsReport.csv");
         }
-
-
     }
 }

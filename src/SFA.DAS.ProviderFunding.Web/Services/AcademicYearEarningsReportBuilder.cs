@@ -1,13 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using SFA.DAS.ProviderFunding.Web.Models;
 
 namespace SFA.DAS.ProviderFunding.Web.Services
 {
-    public class AcademicYearEarningsReportBuilder
+    public class AcademicYearEarningsReportBuilder : IAcademicYearEarningsReportBuilder
     {
-        public static List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
+        private readonly IAcademicYearEarningsReportDataValidator _academicYearEarningsReportDataValidator;
+
+        public AcademicYearEarningsReportBuilder(IAcademicYearEarningsReportDataValidator academicYearEarningsReportDataValidator)
         {
+            _academicYearEarningsReportDataValidator = academicYearEarningsReportDataValidator;
+        }
+
+        public async Task<List<AcademicYearEarningsReport>> BuildAsync(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
+        {
+            var isDataValid = await _academicYearEarningsReportDataValidator.Validate(earningsData, apprenticeshipsData);
+            if (!isDataValid)
+            {
+                //TODO: Handle this scenario
+            }
+
             var report = new List<AcademicYearEarningsReport>();
 
             var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln.ToString());
@@ -39,4 +53,3 @@ namespace SFA.DAS.ProviderFunding.Web.Services
         }
     }
 }
-

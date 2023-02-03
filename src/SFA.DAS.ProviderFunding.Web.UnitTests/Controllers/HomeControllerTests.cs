@@ -15,7 +15,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
         private HomeController _sut;
         private Mock<IProviderEarningsService> _providerEarningsServiceMock;
         private Mock<IApprenticeshipsService> _apprenticeshipsServiceMock;
-        private Mock<IAcademicYearEarningsReportDataValidator> _academicYearEarningsReportDataValidatorMock;
+        private Mock<IAcademicYearEarningsReportBuilder> _academicYearEarningsReportBuilderMock;
 
         [SetUp]
         public void SetUp()
@@ -23,15 +23,15 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             _fixture = new Fixture();
             _providerEarningsServiceMock = new Mock<IProviderEarningsService>();
             _apprenticeshipsServiceMock = new Mock<IApprenticeshipsService>();
-            _academicYearEarningsReportDataValidatorMock = new Mock<IAcademicYearEarningsReportDataValidator>();
+            _academicYearEarningsReportBuilderMock = new Mock<IAcademicYearEarningsReportBuilder>();
 
             _sut = new HomeController(
-                _providerEarningsServiceMock.Object, 
-                _apprenticeshipsServiceMock.Object, 
-                _academicYearEarningsReportDataValidatorMock.Object);
+                _providerEarningsServiceMock.Object,
+                _apprenticeshipsServiceMock.Object,
+                _academicYearEarningsReportBuilderMock.Object);
         }
 
-            [Test]
+        [Test]
         public async Task WheGetSummaryThenDataFromOuterApiIsReturned()
         {
             // Arrange
@@ -41,7 +41,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             _providerEarningsServiceMock.Setup(_ => _.GetSummary(ukprn)).ReturnsAsync(expected);
 
             // Act
-            var result = (ViewResult) await _sut.Index(ukprn);
+            var result = (ViewResult)await _sut.Index(ukprn);
             var actual = result.Model as IndicativeEarningsReportViewModel;
 
             // Assert
@@ -53,18 +53,21 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             actual.NonLevyGovernmentContribution.Should().Be(expected.TotalNonLevyGovernmentContributionForCurrentAcademicYear);
         }
 
-
         [Test]
         public async Task WhenGenerateCSVDataIsReturned()
         {
             // Arrange
             var ukprn = _fixture.Create<long>();
-            var expected = _fixture.Create<AcademicYearEarningsDto>();
+            var expectedEarningsData = _fixture.Create<AcademicYearEarningsDto>();
+            var expectedApprenticeshipsData = _fixture.Create<IEnumerable<ApprenticeshipDto>>();
+            var expectedReports = _fixture.Create<List<AcademicYearEarningsReport>>();
 
-            _providerEarningsServiceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expected);
+            _providerEarningsServiceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expectedEarningsData);
+            _apprenticeshipsServiceMock.Setup(_ => _.GetAll(ukprn)).ReturnsAsync(expectedApprenticeshipsData);
+            _academicYearEarningsReportBuilderMock.Setup(_ => _.BuildAsync(expectedEarningsData, expectedApprenticeshipsData)).ReturnsAsync(expectedReports);
 
             // Act
-            var result = (FileStreamResult)await _sut.GenerateCSV(ukprn);
+            var result = await _sut.GenerateCSV(ukprn);
 
             // Assert
             Assert.NotNull(result);
