@@ -10,7 +10,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
         public async Task<List<AcademicYearEarningsReport>> BuildAsync(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
         {
             var report = new List<AcademicYearEarningsReport>();
-            var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln.ToString());
+            var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln);
 
             foreach (var learner in earningsData.Learners)
             {
