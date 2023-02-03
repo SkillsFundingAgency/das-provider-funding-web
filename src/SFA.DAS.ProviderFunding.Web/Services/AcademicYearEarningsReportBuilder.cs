@@ -7,31 +7,22 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 {
     public class AcademicYearEarningsReportBuilder : IAcademicYearEarningsReportBuilder
     {
-        private readonly IAcademicYearEarningsReportDataValidator _academicYearEarningsReportDataValidator;
-
-        public AcademicYearEarningsReportBuilder(IAcademicYearEarningsReportDataValidator academicYearEarningsReportDataValidator)
-        {
-            _academicYearEarningsReportDataValidator = academicYearEarningsReportDataValidator;
-        }
-
         public async Task<List<AcademicYearEarningsReport>> BuildAsync(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
         {
-            var isDataValid = await _academicYearEarningsReportDataValidator.Validate(earningsData, apprenticeshipsData);
-            if (!isDataValid)
-            {
-                //TODO: Handle this scenario
-            }
-
             var report = new List<AcademicYearEarningsReport>();
-
             var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln.ToString());
 
             foreach (var learner in earningsData.Learners)
             {
+                if (!apprenticeshipsByLearner.TryGetValue(learner.Uln, out var apprenticeship))
+                {
+                    continue;
+                }
+
                 report.Add(new AcademicYearEarningsReport
                 {
-                    FamilyName = apprenticeshipsByLearner[learner.Uln].LastName,
-                    GivenName = apprenticeshipsByLearner[learner.Uln].FirstName,
+                    FamilyName = apprenticeship.LastName,
+                    GivenName = apprenticeship.FirstName,
                     UniqueLearningNumber = learner.Uln,
                     FundingType = learner.FundingType,
                     OnProgrammeEarnings_Jan = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 1)?.Amount ?? 0,

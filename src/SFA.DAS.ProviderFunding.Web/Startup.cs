@@ -43,7 +43,6 @@ namespace SFA.DAS.ProviderFunding.Web
             services.AddConfigurationOptions(_configuration);
 
             services.AddSingleton<IAuthorizationHandler, ProviderAuthorizationHandler>();
-            services.AddScoped<IAcademicYearEarningsReportDataValidator, AcademicYearEarningsReportDataValidator>();
 
             services.AddProviderUiServiceRegistration(_configuration);
 
