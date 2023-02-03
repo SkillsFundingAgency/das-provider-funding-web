@@ -21,6 +21,13 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure
             return serviceCollection;
         }
 
+        public static IServiceCollection AddOtherServices(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddScoped<IAcademicYearEarningsReportBuilder, AcademicYearEarningsReportBuilder>();
+
+            return serviceCollection;
+        }
+
         private static IServiceCollection AddClient<T>(
             this IServiceCollection serviceCollection,
             Func<HttpClient, IServiceProvider, T> instance) where T : class

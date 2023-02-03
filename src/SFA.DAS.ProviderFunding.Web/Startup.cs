@@ -29,7 +29,6 @@ namespace SFA.DAS.ProviderFunding.Web
 
         public ApplicationStartup(IConfiguration configuration, IWebHostEnvironment environment)
         {
-
             _configuration = configuration;
         }
 
@@ -62,7 +61,6 @@ namespace SFA.DAS.ProviderFunding.Web
                 services.AddAndConfigureProviderAuthentication(providerConfig);
             }
 
-
             services.Configure<IISServerOptions>(options => { options.AutomaticAuthentication = false; });
 
             services.Configure<RouteOptions>(options =>
@@ -74,7 +72,6 @@ namespace SFA.DAS.ProviderFunding.Web
                     {
                         options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                     }
-
                 })
                 .SetDefaultNavigationSection(NavigationSection.Home)
                 .EnableGoogleAnalytics()
@@ -100,6 +97,7 @@ namespace SFA.DAS.ProviderFunding.Web
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 #endif
             services.AddOuterApiServices();
+            services.AddOtherServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -115,7 +113,6 @@ namespace SFA.DAS.ProviderFunding.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -141,7 +138,7 @@ namespace SFA.DAS.ProviderFunding.Web
                     await next();
                 }
             });
-            
+
             app.UseAuthentication();
             app.UseRouting();
 
@@ -154,7 +151,5 @@ namespace SFA.DAS.ProviderFunding.Web
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-
     }
 }

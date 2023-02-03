@@ -51,7 +51,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
             return View(model);
         }
 
-        [Route("GenerateCSV", Name = RouteNames.GenerateCSV)]
+        [Route("generate-csv", Name = RouteNames.GenerateCSV)]
         public async Task<IActionResult> GenerateCSV(long ukprn)
         {
             var academicYearEarningsData = await _providerEarningsService.GetDetails(ukprn);
