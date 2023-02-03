@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SFA.DAS.ProviderFunding.Web.Controllers;
@@ -12,27 +11,34 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
 {
     public class HomeControllerTests
     {
-        private Fixture _fixture = null!;
-        private HomeController _sut = null!;
-        private Mock<IProviderEarningsService> _serviceMock = null!;
-        
+        private Fixture _fixture;
+        private HomeController _sut;
+        private Mock<IProviderEarningsService> _providerEarningsServiceMock;
+        private Mock<IApprenticeshipsService> _apprenticeshipsServiceMock;
+        private Mock<IAcademicYearEarningsReportDataValidator> _academicYearEarningsReportDataValidatorMock;
+
         [SetUp]
         public void SetUp()
         {
             _fixture = new Fixture();
-            _serviceMock = new Mock<IProviderEarningsService>();
+            _providerEarningsServiceMock = new Mock<IProviderEarningsService>();
+            _apprenticeshipsServiceMock = new Mock<IApprenticeshipsService>();
+            _academicYearEarningsReportDataValidatorMock = new Mock<IAcademicYearEarningsReportDataValidator>();
 
-            _sut = new HomeController(_serviceMock.Object);
+            _sut = new HomeController(
+                _providerEarningsServiceMock.Object, 
+                _apprenticeshipsServiceMock.Object, 
+                _academicYearEarningsReportDataValidatorMock.Object);
         }
 
-        [Test]
+            [Test]
         public async Task WheGetSummaryThenDataFromOuterApiIsReturned()
         {
             // Arrange
             var ukprn = _fixture.Create<long>();
             var expected = _fixture.Create<ProviderEarningsSummaryDto>();
 
-            _serviceMock.Setup(_ => _.GetSummary(ukprn)).ReturnsAsync(expected);
+            _providerEarningsServiceMock.Setup(_ => _.GetSummary(ukprn)).ReturnsAsync(expected);
 
             // Act
             var result = (ViewResult) await _sut.Index(ukprn);
@@ -55,7 +61,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             var ukprn = _fixture.Create<long>();
             var expected = _fixture.Create<AcademicYearEarningsDto>();
 
-            _serviceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expected);
+            _providerEarningsServiceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expected);
 
             // Act
             var result = (FileStreamResult)await _sut.GenerateCSV(ukprn);

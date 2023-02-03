@@ -6,7 +6,6 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 {
     public class AcademicYearEarningsReportDataValidator : IAcademicYearEarningsReportDataValidator
     {
-        //TODO: unit test
         public async Task<bool> Validate(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
         {
             var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln);
