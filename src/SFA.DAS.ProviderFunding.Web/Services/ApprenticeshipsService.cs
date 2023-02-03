@@ -16,8 +16,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 
         public async Task<IEnumerable<ApprenticeshipDto>> GetAll(long ukprn)
         {
-            var url = ""; //TODO
-            //var url = OuterApiRoutes.Provider.GetEarningsSummary(ukprn);
+            var url = OuterApiRoutes.Provider.GetApprenticeships(ukprn);
 
             using var response = await _client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
