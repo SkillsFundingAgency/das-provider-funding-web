@@ -17,7 +17,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
         }
 
         [Test]
-        public async Task WhenLearnerUlnsAreNotFoundInApprenticeshipsDataThenDoNotIncludeRowsInData()
+        public void WhenLearnerUlnsAreNotFoundInApprenticeshipsDataThenDoNotIncludeRowsInData()
         {
             // Arrange
             var uln1 = _fixture.Create<long>().ToString();
