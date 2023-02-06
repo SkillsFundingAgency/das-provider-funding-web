@@ -7,7 +7,7 @@ using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
 using System.Diagnostics;
 
-namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
+namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
 {
     public class HomeControllerTests
     {
