@@ -62,7 +62,7 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
 
             using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
             {
-                var report = await _academicYearEarningsReportBuilder.BuildAsync(academicYearEarningsData, apprenticeshipsData);
+                var report = _academicYearEarningsReportBuilder.Build(academicYearEarningsData, apprenticeshipsData);
                 csvWriter.WriteRecords(report);
             }
 

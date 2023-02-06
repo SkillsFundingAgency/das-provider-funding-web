@@ -64,7 +64,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
 
             _providerEarningsServiceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expectedEarningsData);
             _apprenticeshipsServiceMock.Setup(_ => _.GetAll(ukprn)).ReturnsAsync(expectedApprenticeshipsData);
-            _academicYearEarningsReportBuilderMock.Setup(_ => _.BuildAsync(expectedEarningsData, expectedApprenticeshipsData)).ReturnsAsync(expectedReports);
+            _academicYearEarningsReportBuilderMock.Setup(_ => _.Build(expectedEarningsData, expectedApprenticeshipsData)).Returns(expectedReports);
 
             // Act
             var result = await _sut.GenerateCSV(ukprn);

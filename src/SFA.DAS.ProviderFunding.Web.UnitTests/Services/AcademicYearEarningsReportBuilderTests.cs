@@ -30,7 +30,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
             var apprenticeships = new List<ApprenticeshipDto>() { new ApprenticeshipDto() { Uln = uln1 }, new ApprenticeshipDto() { Uln = uln3 } };
 
             // Act
-            var actual = await _sut.BuildAsync(earnings, apprenticeships);
+            var actual = _sut.Build(earnings, apprenticeships);
 
             // Assert
             actual.Should().HaveCount(2);
