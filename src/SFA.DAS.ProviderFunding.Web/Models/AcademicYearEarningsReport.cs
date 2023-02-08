@@ -19,6 +19,7 @@
         public decimal OnProgrammeEarnings_Nov { get; set; }
         public decimal OnProgrammeEarnings_Dec { get; set; }
         public decimal TotalOnProgrammeEarnings { get; set; }
-
+        public decimal TotalGovernmentContribution { get; set; }
+        public decimal TotalEmployerContribution { get; set; }
     }
 }
