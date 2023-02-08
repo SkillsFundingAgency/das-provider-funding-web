@@ -37,7 +37,9 @@ namespace SFA.DAS.ProviderFunding.Web.Services
                     OnProgrammeEarnings_Oct = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 10)?.Amount ?? 0,
                     OnProgrammeEarnings_Nov = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 11)?.Amount ?? 0,
                     OnProgrammeEarnings_Dec = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 12)?.Amount ?? 0,
-                    TotalOnProgrammeEarnings = learner.TotalOnProgrammeEarnings
+                    TotalOnProgrammeEarnings = learner.TotalOnProgrammeEarnings,
+                    TotalEmployerContribution = learner.OnProgrammeEarnings.Sum(x => x.EmployerContribution.GetValueOrDefault()),
+                    TotalGovernmentContribution = learner.OnProgrammeEarnings.Sum(x => x.GovernmentContribution.GetValueOrDefault())
                 });
             }
             return report;
