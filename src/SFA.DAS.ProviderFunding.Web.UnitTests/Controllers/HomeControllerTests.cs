@@ -49,8 +49,8 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
             actual.Total.Should().Be(expected.TotalEarningsForCurrentAcademicYear);
             actual.Levy.Should().Be(expected.TotalLevyEarningsForCurrentAcademicYear);
             actual.NonLevy.Should().Be(expected.TotalNonLevyEarningsForCurrentAcademicYear);
-            actual.NonLevyEmployerContribution.Should().Be(expected.TotalNonLevyEmployerContributionForCurrentAcademicYear);
-            actual.NonLevyGovernmentContribution.Should().Be(expected.TotalNonLevyGovernmentContributionForCurrentAcademicYear);
+            actual.NonLevyEmployerContribution.Should().Be(expected.TotalNonLevyEarningsForCurrentAcademicYearEmployer);
+            actual.NonLevyGovernmentContribution.Should().Be(expected.TotalNonLevyEarningsForCurrentAcademicYearGovernment);
         }
 
         [Test]
