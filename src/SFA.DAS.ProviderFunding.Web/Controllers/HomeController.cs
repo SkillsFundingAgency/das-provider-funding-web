@@ -43,8 +43,8 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
                 Total = data.TotalEarningsForCurrentAcademicYear,
                 Levy = data.TotalLevyEarningsForCurrentAcademicYear,
                 NonLevy = data.TotalNonLevyEarningsForCurrentAcademicYear,
-                NonLevyGovernmentContribution = data.TotalNonLevyGovernmentContributionForCurrentAcademicYear,
-                NonLevyEmployerContribution = data.TotalNonLevyEmployerContributionForCurrentAcademicYear
+                NonLevyGovernmentContribution = data.TotalNonLevyEarningsForCurrentAcademicYearGovernment,
+                NonLevyEmployerContribution = data.TotalNonLevyEarningsForCurrentAcademicYearEmployer
             };
 
             return View(model);
