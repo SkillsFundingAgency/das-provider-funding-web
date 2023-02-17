@@ -5,6 +5,6 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 {
     public interface IAcademicYearEarningsReportBuilder
     {
-        List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData);
+        IEnumerable<AcademicYearEarningsReport> Build(AcademicYearEarningsDto earningsData);
     }
 }
