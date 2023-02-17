@@ -8,7 +8,6 @@ namespace SFA.DAS.ProviderFunding.Web.Services
     {
         public IEnumerable<AcademicYearEarningsReport> Build(AcademicYearEarningsDto earningsData)
         {
-            var report = new List<AcademicYearEarningsReport>();
             foreach (var learner in earningsData.Learners)
             {
                 yield return new AcademicYearEarningsReport
