@@ -14,6 +14,9 @@ public static class OuterApiRoutes
             return $"{ukprn}/detail";
         }
 
-
+        public static string GetApprenticeships(long ukprn)
+        {
+            return $"{ukprn}/apprenticeships";
+        }
     }
 }

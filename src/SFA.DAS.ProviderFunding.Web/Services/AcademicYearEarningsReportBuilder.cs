@@ -4,19 +4,25 @@ using SFA.DAS.ProviderFunding.Web.Models;
 
 namespace SFA.DAS.ProviderFunding.Web.Services
 {
-    public class AcademicYearEarningsReportBuilder
+    public class AcademicYearEarningsReportBuilder : IAcademicYearEarningsReportBuilder
     {
-        public static List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto data)
+        public List<AcademicYearEarningsReport> Build(AcademicYearEarningsDto earningsData, IEnumerable<ApprenticeshipDto> apprenticeshipsData)
         {
-            var Report = new List<AcademicYearEarningsReport>();
+            var report = new List<AcademicYearEarningsReport>();
+            var apprenticeshipsByLearner = apprenticeshipsData.ToDictionary(x => x.Uln);
 
-            foreach (var learner in data.Learners)
+            foreach (var learner in earningsData.Learners)
             {
-                Report.Add(new AcademicYearEarningsReport
+                if (!apprenticeshipsByLearner.TryGetValue(learner.Uln, out var apprenticeship))
                 {
-                    FamilyName = "FamilyName",
-                    GivenName = "GivenName",
-                    UinqueLearningNumber = learner.Uln,
+                    continue;
+                }
+
+                report.Add(new AcademicYearEarningsReport
+                {
+                    FamilyName = apprenticeship.LastName,
+                    GivenName = apprenticeship.FirstName,
+                    UniqueLearningNumber = learner.Uln,
                     FundingType = learner.FundingType,
                     OnProgrammeEarnings_Aug = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 1)?.Amount ?? 0,
                     OnProgrammeEarnings_Sep = learner.OnProgrammeEarnings.SingleOrDefault(q => q.DeliveryPeriod == 2)?.Amount ?? 0,
@@ -35,7 +41,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
                     TotalGovernmentContribution = learner.OnProgrammeEarnings.Sum(x => x.GovernmentContribution.GetValueOrDefault())
                 });
             }
-            return Report;
+            return report;
         }
     }
 }

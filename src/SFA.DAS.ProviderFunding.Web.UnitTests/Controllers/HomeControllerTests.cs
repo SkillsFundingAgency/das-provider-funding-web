@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using SFA.DAS.ProviderFunding.Web.Controllers;
@@ -8,21 +7,28 @@ using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
 using System.Diagnostics;
 
-namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
+namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
 {
     public class HomeControllerTests
     {
-        private Fixture _fixture = null!;
-        private HomeController _sut = null!;
-        private Mock<IProviderEarningsService> _serviceMock = null!;
-        
+        private Fixture _fixture;
+        private HomeController _sut;
+        private Mock<IProviderEarningsService> _providerEarningsServiceMock;
+        private Mock<IApprenticeshipsService> _apprenticeshipsServiceMock;
+        private Mock<IAcademicYearEarningsReportBuilder> _academicYearEarningsReportBuilderMock;
+
         [SetUp]
         public void SetUp()
         {
             _fixture = new Fixture();
-            _serviceMock = new Mock<IProviderEarningsService>();
+            _providerEarningsServiceMock = new Mock<IProviderEarningsService>();
+            _apprenticeshipsServiceMock = new Mock<IApprenticeshipsService>();
+            _academicYearEarningsReportBuilderMock = new Mock<IAcademicYearEarningsReportBuilder>();
 
-            _sut = new HomeController(_serviceMock.Object);
+            _sut = new HomeController(
+                _providerEarningsServiceMock.Object,
+                _apprenticeshipsServiceMock.Object,
+                _academicYearEarningsReportBuilderMock.Object);
         }
 
         [Test]
@@ -32,10 +38,10 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             var ukprn = _fixture.Create<long>();
             var expected = _fixture.Create<ProviderEarningsSummaryDto>();
 
-            _serviceMock.Setup(_ => _.GetSummary(ukprn)).ReturnsAsync(expected);
+            _providerEarningsServiceMock.Setup(_ => _.GetSummary(ukprn)).ReturnsAsync(expected);
 
             // Act
-            var result = (ViewResult) await _sut.Index(ukprn);
+            var result = (ViewResult)await _sut.Index(ukprn);
             var actual = result.Model as IndicativeEarningsReportViewModel;
 
             // Assert
@@ -47,18 +53,21 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Controllers
             actual.NonLevyGovernmentContribution.Should().Be(expected.TotalNonLevyEarningsForCurrentAcademicYearGovernment);
         }
 
-
         [Test]
         public async Task WhenGenerateCSVDataIsReturned()
         {
             // Arrange
             var ukprn = _fixture.Create<long>();
-            var expected = _fixture.Create<AcademicYearEarningsDto>();
+            var expectedEarningsData = _fixture.Create<AcademicYearEarningsDto>();
+            var expectedApprenticeshipsData = _fixture.Create<IEnumerable<ApprenticeshipDto>>();
+            var expectedReports = _fixture.Create<List<AcademicYearEarningsReport>>();
 
-            _serviceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expected);
+            _providerEarningsServiceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expectedEarningsData);
+            _apprenticeshipsServiceMock.Setup(_ => _.GetAll(ukprn)).ReturnsAsync(expectedApprenticeshipsData);
+            _academicYearEarningsReportBuilderMock.Setup(_ => _.Build(expectedEarningsData, expectedApprenticeshipsData)).Returns(expectedReports);
 
             // Act
-            var result = (FileStreamResult)await _sut.GenerateCSV(ukprn);
+            var result = await _sut.GenerateCSV(ukprn);
 
             // Assert
             Assert.NotNull(result);
