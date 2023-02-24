@@ -20,16 +20,13 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
     public class HomeController : Controller
     {
         private readonly IProviderEarningsService _providerEarningsService;
-        private readonly IApprenticeshipsService _apprenticeshipsService;
         private readonly IAcademicYearEarningsReportBuilder _academicYearEarningsReportBuilder;
 
         public HomeController(
             IProviderEarningsService providerEarningsService,
-            IApprenticeshipsService apprenticeshipsService,
             IAcademicYearEarningsReportBuilder academicYearEarningsReportBuilder)
         {
             _providerEarningsService = providerEarningsService;
-            _apprenticeshipsService = apprenticeshipsService;
             _academicYearEarningsReportBuilder = academicYearEarningsReportBuilder;
         }
 
@@ -55,14 +52,13 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
         public async Task<IActionResult> GenerateCSV(long ukprn)
         {
             var academicYearEarningsData = await _providerEarningsService.GetDetails(ukprn);
-            var apprenticeshipsData = await _apprenticeshipsService.GetAll(ukprn);
 
             var memoryStream = new MemoryStream();
             var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8, 1024, true);
 
             using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
             {
-                var report = _academicYearEarningsReportBuilder.Build(academicYearEarningsData, apprenticeshipsData);
+                var report = _academicYearEarningsReportBuilder.Build(academicYearEarningsData);
                 csvWriter.WriteRecords(report);
             }
 

@@ -14,7 +14,6 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
         private Fixture _fixture;
         private HomeController _sut;
         private Mock<IProviderEarningsService> _providerEarningsServiceMock;
-        private Mock<IApprenticeshipsService> _apprenticeshipsServiceMock;
         private Mock<IAcademicYearEarningsReportBuilder> _academicYearEarningsReportBuilderMock;
 
         [SetUp]
@@ -22,12 +21,10 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
         {
             _fixture = new Fixture();
             _providerEarningsServiceMock = new Mock<IProviderEarningsService>();
-            _apprenticeshipsServiceMock = new Mock<IApprenticeshipsService>();
             _academicYearEarningsReportBuilderMock = new Mock<IAcademicYearEarningsReportBuilder>();
 
             _sut = new HomeController(
                 _providerEarningsServiceMock.Object,
-                _apprenticeshipsServiceMock.Object,
                 _academicYearEarningsReportBuilderMock.Object);
         }
 
@@ -59,12 +56,10 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
             // Arrange
             var ukprn = _fixture.Create<long>();
             var expectedEarningsData = _fixture.Create<AcademicYearEarningsDto>();
-            var expectedApprenticeshipsData = _fixture.Create<IEnumerable<ApprenticeshipDto>>();
             var expectedReports = _fixture.Create<List<AcademicYearEarningsReport>>();
 
             _providerEarningsServiceMock.Setup(_ => _.GetDetails(ukprn)).ReturnsAsync(expectedEarningsData);
-            _apprenticeshipsServiceMock.Setup(_ => _.GetAll(ukprn)).ReturnsAsync(expectedApprenticeshipsData);
-            _academicYearEarningsReportBuilderMock.Setup(_ => _.Build(expectedEarningsData, expectedApprenticeshipsData)).Returns(expectedReports);
+            _academicYearEarningsReportBuilderMock.Setup(_ => _.Build(expectedEarningsData)).Returns(expectedReports);
 
             // Act
             var result = await _sut.GenerateCSV(ukprn);

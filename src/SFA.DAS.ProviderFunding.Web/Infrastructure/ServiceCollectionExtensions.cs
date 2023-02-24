@@ -16,7 +16,6 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure
         public static IServiceCollection AddOuterApiServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddClient<IProviderEarningsService>((client, _) => new ProviderEarningsService(client));
-            serviceCollection.AddClient<IApprenticeshipsService>((client, _) => new ApprenticeshipsService(client));
 
             return serviceCollection;
         }
