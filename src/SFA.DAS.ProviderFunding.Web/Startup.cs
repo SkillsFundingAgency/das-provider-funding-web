@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SFA.DAS.Configuration.AzureTableStorage;
+using SFA.DAS.DfESignIn.Auth.AppStart;
 using SFA.DAS.Provider.Shared.UI;
 using SFA.DAS.Provider.Shared.UI.Models;
 using SFA.DAS.Provider.Shared.UI.Startup;
@@ -54,10 +55,22 @@ namespace SFA.DAS.ProviderFunding.Web
             }
             else
             {
-                var providerConfig = _configuration
-                    .GetSection(nameof(ProviderIdams))
-                    .Get<ProviderIdams>();
-                services.AddAndConfigureProviderAuthentication(providerConfig);
+                if (_configuration["UseDfESignIn"] != null && _configuration["UseDfESignIn"].Equals("true", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    services.AddAndConfigureDfESignInAuthentication(
+                        _configuration,
+                        "SFA.DAS.ProviderApprenticeshipService",
+                        typeof(CustomServiceRole),
+                        "ProviderRoATP",
+                        "/signout");    
+                }
+                else
+                {
+                    var providerConfig = _configuration
+                        .GetSection(nameof(ProviderIdams))
+                        .Get<ProviderIdams>();
+                    services.AddAndConfigureProviderAuthentication(providerConfig);
+                }
             }
 
             services.Configure<IISServerOptions>(options => { options.AutomaticAuthentication = false; });
