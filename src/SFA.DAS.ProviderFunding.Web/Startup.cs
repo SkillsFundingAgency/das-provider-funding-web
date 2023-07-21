@@ -35,6 +35,9 @@ namespace SFA.DAS.ProviderFunding.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var useDfESignIn = _configuration["UseDfESignIn"] != null && _configuration["UseDfESignIn"]
+                .Equals("true", StringComparison.CurrentCultureIgnoreCase);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -55,7 +58,8 @@ namespace SFA.DAS.ProviderFunding.Web
             }
             else
             {
-                if (_configuration["UseDfESignIn"] != null && _configuration["UseDfESignIn"].Equals("true", StringComparison.CurrentCultureIgnoreCase))
+                // condition to check if the DfESignIn toggle switch is enabled and use DfESignIn OpenIdConnect.
+                if (useDfESignIn)
                 {
                     services.AddAndConfigureDfESignInAuthentication(
                         _configuration,
@@ -87,6 +91,7 @@ namespace SFA.DAS.ProviderFunding.Web
                 })
                 .SetDefaultNavigationSection(NavigationSection.Home)
                 .EnableGoogleAnalytics()
+                .SetDfESignInConfiguration(useDfESignIn)
                 .SetZenDeskConfiguration(_configuration.GetSection("ProviderZenDeskSettings").Get<ZenDeskConfiguration>());
 
             if (!_configuration.IsDev() && !_configuration.IsLocal())
