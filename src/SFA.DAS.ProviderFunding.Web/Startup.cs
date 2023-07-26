@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SFA.DAS.Configuration.AzureTableStorage;
+using SFA.DAS.DfESignIn.Auth.AppStart;
 using SFA.DAS.Provider.Shared.UI;
 using SFA.DAS.Provider.Shared.UI.Models;
 using SFA.DAS.Provider.Shared.UI.Startup;
@@ -34,6 +35,9 @@ namespace SFA.DAS.ProviderFunding.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var useDfESignIn = _configuration["UseDfESignIn"] != null && _configuration["UseDfESignIn"]
+                .Equals("true", StringComparison.CurrentCultureIgnoreCase);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -54,10 +58,23 @@ namespace SFA.DAS.ProviderFunding.Web
             }
             else
             {
-                var providerConfig = _configuration
-                    .GetSection(nameof(ProviderIdams))
-                    .Get<ProviderIdams>();
-                services.AddAndConfigureProviderAuthentication(providerConfig);
+                // condition to check if the DfESignIn toggle switch is enabled and use DfESignIn OpenIdConnect.
+                if (useDfESignIn)
+                {
+                    services.AddAndConfigureDfESignInAuthentication(
+                        _configuration,
+                        "SFA.DAS.ProviderApprenticeshipService",
+                        typeof(CustomServiceRole),
+                        "ProviderRoATP",
+                        "/signout");    
+                }
+                else
+                {
+                    var providerConfig = _configuration
+                        .GetSection(nameof(ProviderIdams))
+                        .Get<ProviderIdams>();
+                    services.AddAndConfigureProviderAuthentication(providerConfig);
+                }
             }
 
             services.Configure<IISServerOptions>(options => { options.AutomaticAuthentication = false; });
@@ -74,6 +91,7 @@ namespace SFA.DAS.ProviderFunding.Web
                 })
                 .SetDefaultNavigationSection(NavigationSection.Home)
                 .EnableGoogleAnalytics()
+                .SetDfESignInConfiguration(useDfESignIn)
                 .SetZenDeskConfiguration(_configuration.GetSection("ProviderZenDeskSettings").Get<ZenDeskConfiguration>());
 
             if (!_configuration.IsDev() && !_configuration.IsLocal())

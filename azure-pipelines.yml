@@ -64,6 +64,7 @@ stages:
   variables:
   - group: DevTest Management Resources
   - group: TEST DevTest Shared Resources
+  - group: TEST das-provider-funding-web
   jobs:
   - template: pipeline-templates/job/deploy.yml
     parameters:
