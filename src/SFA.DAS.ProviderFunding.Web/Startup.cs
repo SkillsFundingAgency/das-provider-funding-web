@@ -66,7 +66,8 @@ namespace SFA.DAS.ProviderFunding.Web
                         "SFA.DAS.ProviderApprenticeshipService",
                         typeof(CustomServiceRole),
                         "ProviderRoATP",
-                        "/signout");    
+                        "/signout",
+                        "/dashboard");    
                 }
                 else
                 {
