@@ -162,34 +162,38 @@
                     "appServiceAppSettings": {
                         "value": {
                             "array": [
-                                {
-                                    "name": "EnvironmentName",
-                                    "value": "[parameters('environmentName')]"
-                                },
-                                {
-                                    "name": "ConfigurationStorageConnectionString",
-                                    "value": "[parameters('configurationStorageConnectionString')]"
-                                },
-                                {
-                                    "name": "ConfigNames",
-                                    "value": "[variables('configNames')]"
-                                },
-                                {
-                                    "name": "Version",
-                                    "value": "1.0"
-                                },
-                                {
-                                    "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
-                                    "value": "[reference(concat(variables('appServiceName'), '-application-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
-                                },
-                                {
-                                    "name": "LoggingRedisConnectionString",
-                                    "value": "[parameters('loggingRedisConnectionString')]"
-                                },
-                                {
-                                    "name": "LoggingRedisKey",
-                                    "value": "[parameters('loggingRedisKey')]"
-                                }
+                              {
+                                "name": "EnvironmentName",
+                                "value": "[parameters('environmentName')]"
+                              },
+                              {
+                                "name": "ResourceEnvironmentName",
+                                "value": "[parameters('resourceEnvironmentName')]"
+                              },
+                              {
+                                "name": "ConfigurationStorageConnectionString",
+                                "value": "[parameters('configurationStorageConnectionString')]"
+                              },
+                              {
+                                "name": "ConfigNames",
+                                "value": "[variables('configNames')]"
+                              },
+                              {
+                                "name": "Version",
+                                "value": "1.0"
+                              },
+                              {
+                                "name": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+                                "value": "[reference(concat(variables('appServiceName'), '-application-insights-', parameters('utcValue'))).outputs.ConnectionString.value]"
+                              },
+                              {
+                                "name": "LoggingRedisConnectionString",
+                                "value": "[parameters('loggingRedisConnectionString')]"
+                              },
+                              {
+                                "name": "LoggingRedisKey",
+                                "value": "[parameters('loggingRedisKey')]"
+                              }
                             ]
                         }
                     },

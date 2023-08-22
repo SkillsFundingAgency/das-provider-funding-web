@@ -1,6 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Moq;
 using SFA.DAS.ProviderFunding.Web.Controllers;
+using SFA.DAS.ProviderFunding.Web.Models.Error;
 
 namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
 {
@@ -8,18 +11,30 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
     public class ErrorControllerTests
     {
         private ErrorController _sut;
+        private Mock<IConfiguration> _mockConfiguration;
 
         [SetUp]
         public void SetUp()
         {
-            _sut = new ErrorController();
+            _mockConfiguration = new Mock<IConfiguration>();
+            _sut = new ErrorController(_mockConfiguration.Object);
         }
 
         [Test]
-        public void WhenStatusCodeIs403Then403ViewIsReturned()
+        [TestCase("test", "https://test-services.signin.education.gov.uk/organisations")]
+        [TestCase("pp", "https://test-services.signin.education.gov.uk/organisations")]
+        [TestCase("local", "https://test-services.signin.education.gov.uk/organisations")]
+        [TestCase("prd", "https://services.signin.education.gov.uk/organisations")]
+        public void WhenStatusCodeIs403Then403ViewIsReturned(string env, string helpLink)
         {
+            //arrange
+            _mockConfiguration.Setup(x => x["ResourceEnvironmentName"]).Returns(env);
+
             var result = (ViewResult)_sut.Error(403);
-            result.ViewName.Should().Be("403");
+
+            Assert.That(result, Is.Not.Null);
+            var actualModel = result?.Model as Error403ViewModel;
+            Assert.That(actualModel?.HelpPageLink, Is.EqualTo(helpLink));
         }
 
         [Test]
