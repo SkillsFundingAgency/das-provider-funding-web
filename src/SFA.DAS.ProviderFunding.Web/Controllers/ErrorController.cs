@@ -28,7 +28,8 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
                 case 403:
                     return View(statusCode.ToString(), new Error403ViewModel(_configuration["ResourceEnvironmentName"])
                     {
-                        UseDfESignIn = useDfESignIn
+                        UseDfESignIn = useDfESignIn,
+                        DashboardLink = _configuration["ProviderSharedUIConfiguration:DashboardUrl"],
                     });
                 case 404:
                     return View(statusCode.ToString());

@@ -1,15 +1,16 @@
 ﻿@model SFA.DAS.ProviderFunding.Web.Models.Error.Error403ViewModel
 @{
-    ViewData["Title"] = "You do not have permission to access this page";
+    ViewData["Title"] = Model.UseDfESignIn ? "Different service role needed - Apprenticeships" : "You do not have permission to access this page";
     //ViewBag.GaData.Vpv = "/error/403";
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @if(Model.UseDfESignIn){
+        @if (Model.UseDfESignIn)
+        {
             <div class="hgroup">
                 <h1 class="govuk-heading-xl">
-                    You need a different permission level to view this page
+                    To continue, you'll need to get your role for this service changed.
                 </h1>
             </div>
             <div class="inner">
@@ -17,10 +18,13 @@
                     To continue, you’ll need to get the permission level of your DfE Sign-in account changed.
                 </p>
                 <p>
-                    The DfE Sign-in approver inside your organisation can do this for you. You can find out who your approver is under <a href="@Model.HelpPageLink" target="_blank" rel="noopener noreferrer">the organisation section of your DfE Sign-in account.</a>
+                    You can ask for a higher role by <a href="@Model.HelpPageLink" target="_blank" rel="noopener noreferrer">requesting access to a service in your DfE Sign-in account</a>. Select Apprenticeship service for training providers, and then request a higher role at the next step.
                 </p>
                 <p>
-                    If you came here by mistake, go back to the <a href="@Url.Action("Dashboard", "ProviderAccount")">homepage of Manage apprenticeships for training providers.</a>
+                    The DfE Sign-in approver inside your organisation will need to approve your request.
+                </p>
+                <p>
+                    If you came here by mistake, go back to the <a href="@Model.DashboardLink">homepage of Manage apprenticeships for training providers.</a>
                 </p>
             </div>
         }
