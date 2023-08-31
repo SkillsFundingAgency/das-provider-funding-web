@@ -67,7 +67,7 @@ namespace SFA.DAS.ProviderFunding.Web
                         typeof(CustomServiceRole),
                         "ProviderRoATP",
                         "/signout",
-                        "/dashboard");    
+                        "");    
                 }
                 else
                 {
