@@ -21,20 +21,22 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
         }
 
         [Test]
-        [TestCase("test", "https://test-services.signin.education.gov.uk/organisations")]
-        [TestCase("pp", "https://test-services.signin.education.gov.uk/organisations")]
-        [TestCase("local", "https://test-services.signin.education.gov.uk/organisations")]
-        [TestCase("prd", "https://services.signin.education.gov.uk/organisations")]
-        public void WhenStatusCodeIs403Then403ViewIsReturned(string env, string helpLink)
+        [TestCase("test", "https://test-services.signin.education.gov.uk/approvals/select-organisation?action=request-service", true)]
+        [TestCase("pp", "https://test-services.signin.education.gov.uk/approvals/select-organisation?action=request-service", true)]
+        [TestCase("local", "https://test-services.signin.education.gov.uk/approvals/select-organisation?action=request-service", false)]
+        [TestCase("prd", "https://services.signin.education.gov.uk/approvals/select-organisation?action=request-service", false)]
+        public void WhenStatusCodeIs403Then403ViewIsReturned(string env, string helpLink, bool useDfESignIn)
         {
             //arrange
             _mockConfiguration.Setup(x => x["ResourceEnvironmentName"]).Returns(env);
+            _mockConfiguration.Setup(x => x["UseDfESignIn"]).Returns(Convert.ToString(useDfESignIn));
 
             var result = (ViewResult)_sut.Error(403);
 
             Assert.That(result, Is.Not.Null);
             var actualModel = result?.Model as Error403ViewModel;
             Assert.That(actualModel?.HelpPageLink, Is.EqualTo(helpLink));
+            Assert.That(actualModel?.UseDfESignIn, Is.EqualTo(useDfESignIn));
         }
 
         [Test]
