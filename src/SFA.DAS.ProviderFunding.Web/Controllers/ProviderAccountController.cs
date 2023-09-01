@@ -38,11 +38,5 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 authScheme);
         }
-
-        [Route("dashboard")]
-        public IActionResult Dashboard()
-        {
-            return RedirectPermanent(_configuration["ProviderSharedUIConfiguration:DashboardUrl"]);
-        }
     }
 }
