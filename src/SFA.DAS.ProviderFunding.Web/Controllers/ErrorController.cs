@@ -31,8 +31,6 @@ namespace SFA.DAS.ProviderFunding.Web.Controllers
                     });
                 case 404:
                     return View(statusCode.ToString());
-                case 401:
-                    return View(statusCode.ToString());
                 default:
                     return View();
             }

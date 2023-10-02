@@ -47,19 +47,13 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
         }
         
         [TestCase(null)]
+        [TestCase(401)]
         [TestCase(503)]
         [TestCase(405)]
         public void WhenStatusCodeIsNotHandledThenGenericErrorViewIsReturned(int? errorCode)
         {
             var result = (ViewResult)_sut.Error(errorCode);
             result.ViewName.Should().BeNull();
-        }
-
-        [Test]
-        public void WhenStatusCodeIs401Then401ViewIsReturned()
-        {
-            var result = (ViewResult)_sut.Error(401);
-            result.ViewName.Should().Be("401");
         }
     }
 }
