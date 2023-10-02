@@ -4,15 +4,15 @@ using System.Threading.Tasks;
 namespace SFA.DAS.ProviderFunding.Web.Services
 {
     /// <summary>
-    /// Interface to define the contracts related to Training Provider services.
+    /// Contract to interact with Training Provider(RoATP/APAR) Outer Api.
     /// </summary>
     public interface ITrainingProviderService
     {
         /// <summary>
-        /// Contract to get the details of Provider from Outer API by given ukprn number.
+        /// Contract to get the details of the Provider by given ukprn or provider Id.
         /// </summary>
-        /// <param name="ukprn">ukprn number.</param>
-        /// <returns></returns>
-        Task<GetProviderResponseItem> GetProviderDetails(long ukprn);
+        /// <param name="providerId">ukprn.</param>
+        /// <returns>GetProviderSummaryResult.</returns>
+        Task<GetProviderSummaryResult> GetProviderDetails(long providerId);
     }
 }

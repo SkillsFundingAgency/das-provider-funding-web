@@ -1,6 +1,7 @@
-﻿using SFA.DAS.ProviderFunding.Web.Models;
+﻿using Newtonsoft.Json;
+using SFA.DAS.ProviderFunding.Web.Models;
+using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SFA.DAS.ProviderFunding.Web.Services
@@ -16,22 +17,21 @@ namespace SFA.DAS.ProviderFunding.Web.Services
         }
 
         /// <inheritdoc />
-        public async Task<GetProviderResponseItem> GetProviderDetails(long ukprn)
+        public async Task<GetProviderSummaryResult> GetProviderDetails(long ukprn)
         {
             var url = OuterApiRoutes.Provider.GetProviderDetails(ukprn);
 
             using var response = await _client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
-            response.EnsureSuccessStatusCode();
-
-            var providerData = await JsonSerializer.DeserializeAsync<GetProviderResponseItem>(
-                await response.Content.ReadAsStreamAsync(), 
-                options: new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-
-            return providerData;
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                    var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<GetProviderSummaryResult>(json);
+                case HttpStatusCode.NotFound:
+                default:
+                    return default;
+            }
         }
     }
 }

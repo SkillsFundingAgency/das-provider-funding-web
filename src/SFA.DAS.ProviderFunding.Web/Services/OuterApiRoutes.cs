@@ -16,7 +16,7 @@ public static class OuterApiRoutes
 
         public static string GetProviderDetails(long ukprn)
         {
-            return $"providers/{ukprn}";
+            return $"api/providers/{ukprn}";
         }
     }
 }
