@@ -41,13 +41,11 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
             context.Succeed(requirement);
         }
 
-        #region "Private Methods"
         private bool GetUseStubProviderValidationSetting()
         {
             var value = _configuration.GetSection("UseStubProviderValidation").Value;
 
             return value != null && bool.TryParse(value, out var result) && result;
         }
-        #endregion
     }
 }

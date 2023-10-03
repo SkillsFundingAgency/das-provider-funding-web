@@ -2,10 +2,12 @@
 using FluentAssertions;
 using Moq;
 using Moq.Protected;
+using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
 using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
 using System.Net;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
 {
@@ -15,12 +17,21 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
         private Mock<HttpMessageHandler> _mockHttpsMessageHandler = null!;
         private Fixture _fixture = null!;
         private TrainingProviderService _sut = null!;
+        private TrainingProviderApiClientConfiguration _settings = null!;
+        private Mock<IConfiguration> _configuration = null!;
 
         [SetUp]
         public void SetUp()
         {
             _fixture = new Fixture();
             _mockHttpsMessageHandler = new Mock<HttpMessageHandler>();
+            _configuration = new Mock<IConfiguration>();
+            _configuration.SetupGet(x => x[It.Is<string>(s => s == "EnvironmentName")]).Returns("TEST");
+            _settings = _fixture
+                .Build<TrainingProviderApiClientConfiguration>()
+                .With(x => x.ApiBaseUrl, OuterApiBaseAddress)
+                .With(x => x.IdentifierUri, "")
+                .Create();
         }
 
         [Test]
@@ -42,7 +53,7 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
             {
                 BaseAddress = new Uri(OuterApiBaseAddress),
             };
-            _sut = new TrainingProviderService(httpClient);
+            _sut = new TrainingProviderService(httpClient, _settings);
 
             // Act
             var actual = await _sut.GetProviderDetails(ukprn);
@@ -68,7 +79,7 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
             {
                 BaseAddress = new Uri(OuterApiBaseAddress),
             };
-            _sut = new TrainingProviderService(httpClient);
+            _sut = new TrainingProviderService(httpClient, _settings);
 
             // Act
             var actual = await _sut.GetProviderDetails(ukprn);
@@ -95,7 +106,7 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
             {
                 BaseAddress = new Uri(OuterApiBaseAddress),
             };
-            _sut = new TrainingProviderService(httpClient);
+            _sut = new TrainingProviderService(httpClient, _settings);
 
             // Act
             var actual = await _sut.GetProviderDetails(ukprn);

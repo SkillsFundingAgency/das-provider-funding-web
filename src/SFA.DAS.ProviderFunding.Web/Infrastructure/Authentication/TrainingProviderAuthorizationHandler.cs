@@ -38,6 +38,7 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication
         {
             var ukprn = GetProviderId();
 
+            //if the ukprn is invalid return false.
             if (ukprn <= 0) return false;
 
             var providerDetails = await _trainingProviderService.GetProviderDetails(ukprn);
@@ -46,13 +47,11 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication
             return providerDetails is { CanAccessApprenticeshipService: true };
         }
 
-        #region "Private Methods"
         private long GetProviderId()
         {
             return long.TryParse(_httpContextAccessor.HttpContext?.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn))?.Value, out var providerId) 
                 ? providerId 
                 : 0;
         }
-        #endregion
     }
 }
