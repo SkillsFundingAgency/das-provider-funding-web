@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
 using SFA.DAS.ProviderFunding.Web.Services;
 using System.Threading.Tasks;
@@ -15,41 +14,37 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication
         /// Contract to check is the logged in Provider is a valid Training Provider. 
         /// </summary>
         /// <param name="context">AuthorizationHandlerContext.</param>
-        /// <param name="allowAllUserRoles">boolean.</param>
         /// <returns>boolean.</returns>
-        Task<bool> IsProviderAuthorized(AuthorizationHandlerContext context, bool allowAllUserRoles);
+        Task<bool> IsProviderAuthorized(AuthorizationHandlerContext context);
     }
 
     ///<inheritdoc cref="ITrainingProviderAuthorizationHandler"/>
     public class TrainingProviderAuthorizationHandler : ITrainingProviderAuthorizationHandler
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITrainingProviderService _trainingProviderService;
 
-        public TrainingProviderAuthorizationHandler(
-            IHttpContextAccessor httpContextAccessor,
-            ITrainingProviderService trainingProviderService)
+        public TrainingProviderAuthorizationHandler(ITrainingProviderService trainingProviderService)
         {
-            _httpContextAccessor = httpContextAccessor;
             _trainingProviderService = trainingProviderService;
         }
 
-        public async Task<bool> IsProviderAuthorized(AuthorizationHandlerContext context, bool allowAllUserRoles)
+        public async Task<bool> IsProviderAuthorized(AuthorizationHandlerContext context)
         {
-            var ukprn = GetProviderId();
+            var ukprn = GetProviderId(context);
 
-            //if the ukprn is invalid return false.
-            if (ukprn <= 0) return false;
+            if (ukprn <= 0)
+            {
+                return false;
+            }
 
-            var providerDetails = await _trainingProviderService.GetProviderDetails(ukprn);
+            var providerDetails = await _trainingProviderService.CanProviderAccessService(ukprn);
 
-            // Condition to check if the Provider Details has permission to access Apprenticeship Services based on the property value "CanAccessApprenticeshipService" set to True.
-            return providerDetails is { CanAccessApprenticeshipService: true };
+            return providerDetails;
         }
 
-        private long GetProviderId()
+        private long GetProviderId(AuthorizationHandlerContext authorizationHandlerContext)
         {
-            return long.TryParse(_httpContextAccessor.HttpContext?.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn))?.Value, out var providerId) 
+            return long.TryParse(authorizationHandlerContext.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn))?.Value, out var providerId) 
                 ? providerId 
                 : 0;
         }

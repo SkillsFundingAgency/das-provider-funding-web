@@ -32,10 +32,11 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
 
             // check if the stub is activated to by-pass the validation. Mostly used for local development purpose.
             // logic to check if the provider is authorized if not redirect the user to PAS 401 un-authorized page.
-            if (!isStubProviderValidationEnabled && !(await _handler.IsProviderAuthorized(context, true)))
+            if (!isStubProviderValidationEnabled && !(await _handler.IsProviderAuthorized(context)))
             {
                 var httpContext = _httpContextAccessor.HttpContext;
                 httpContext?.Response.Redirect($"{_providerSharedUiConfiguration.DashboardUrl}/error/401");
+                
             }
 
             context.Succeed(requirement);

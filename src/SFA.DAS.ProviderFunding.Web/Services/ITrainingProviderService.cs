@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
         /// Contract to get the details of the Provider by given ukprn or provider Id.
         /// </summary>
         /// <param name="providerId">ukprn.</param>
-        /// <returns>GetProviderSummaryResult.</returns>
-        Task<GetProviderSummaryResult> GetProviderDetails(long providerId);
+        /// <returns>bool.</returns>
+        Task<bool> CanProviderAccessService(long providerId);
     }
 }

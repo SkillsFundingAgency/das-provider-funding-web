@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using Moq;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
-using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
 using SFA.DAS.Testing.AutoFixture;
 using System.Security.Claims;
@@ -17,14 +16,12 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Infrastructure.Authentication
         [Test, MoqAutoData]
         public async Task Then_The_ProviderStatus_Is_Valid_And_True_Returned(
             long ukprn,
-            GetProviderSummaryResult apiResponse,
             [Frozen] Mock<ITrainingProviderService> trainingProviderService,
             [Frozen] Mock<IHttpContextAccessor> httpContextAccessor,
             AuthorizationHandlerContext context,
             TrainingProviderAuthorizationHandler handler)
         {
             //Arrange
-            apiResponse.CanAccessApprenticeshipService = true;
             var claims = new List<Claim>
             {
                 new(ProviderClaims.ProviderUkprn, ukprn.ToString()),
@@ -32,10 +29,10 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Infrastructure.Authentication
             var identity = new ClaimsIdentity(claims, "TestAuthType");
             var claimsPrincipal = new ClaimsPrincipal(identity);
             httpContextAccessor.Setup(x => x.HttpContext!.User).Returns(claimsPrincipal);
-            trainingProviderService.Setup(x => x.GetProviderDetails(ukprn)).ReturnsAsync(apiResponse);
+            trainingProviderService.Setup(x => x.CanProviderAccessService(ukprn)).ReturnsAsync(true);
 
             //Act
-            var actual = await handler.IsProviderAuthorized(context, true);
+            var actual = await handler.IsProviderAuthorized(context);
 
             //Assert
             actual.Should().BeTrue();
@@ -44,33 +41,6 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Infrastructure.Authentication
         [Test, MoqAutoData]
         public async Task Then_The_ProviderDetails_Is_InValid_And_False_Returned(
             long ukprn,
-            GetProviderSummaryResult apiResponse,
-            [Frozen] Mock<ITrainingProviderService> trainingProviderService,
-            [Frozen] Mock<IHttpContextAccessor> httpContextAccessor,
-            AuthorizationHandlerContext context,
-            TrainingProviderAuthorizationHandler handler)
-        {
-            //Arrange
-            apiResponse.CanAccessApprenticeshipService = false;
-            var claims = new List<Claim>
-            {
-                new(ProviderClaims.ProviderUkprn, ukprn.ToString()),
-            };
-            var identity = new ClaimsIdentity(claims, "TestAuthType");
-            var claimsPrincipal = new ClaimsPrincipal(identity);
-            httpContextAccessor.Setup(x => x.HttpContext!.User).Returns(claimsPrincipal);
-            trainingProviderService.Setup(x => x.GetProviderDetails(ukprn)).ReturnsAsync(apiResponse);
-
-            //Act
-            var actual = await handler.IsProviderAuthorized(context, true);
-
-            //Assert
-            actual.Should().BeFalse();
-        }
-
-        [Test, MoqAutoData]
-        public async Task Then_The_ProviderDetails_Is_Null_And_False_Returned(
-            long ukprn,
             [Frozen] Mock<ITrainingProviderService> trainingProviderService,
             [Frozen] Mock<IHttpContextAccessor> httpContextAccessor,
             AuthorizationHandlerContext context,
@@ -84,10 +54,10 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Infrastructure.Authentication
             var identity = new ClaimsIdentity(claims, "TestAuthType");
             var claimsPrincipal = new ClaimsPrincipal(identity);
             httpContextAccessor.Setup(x => x.HttpContext!.User).Returns(claimsPrincipal);
-            trainingProviderService.Setup(x => x.GetProviderDetails(ukprn)).ReturnsAsync((GetProviderSummaryResult)null!);
+            trainingProviderService.Setup(x => x.CanProviderAccessService(ukprn)).ReturnsAsync(false);
 
             //Act
-            var actual = await handler.IsProviderAuthorized(context, true);
+            var actual = await handler.IsProviderAuthorized(context);
 
             //Assert
             actual.Should().BeFalse();

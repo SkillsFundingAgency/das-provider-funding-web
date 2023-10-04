@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Moq;
 using Moq.Protected;
-using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
 using SFA.DAS.ProviderFunding.Web.Models;
 using SFA.DAS.ProviderFunding.Web.Services;
 using System.Net;
@@ -17,7 +16,6 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
         private Mock<HttpMessageHandler> _mockHttpsMessageHandler = null!;
         private Fixture _fixture = null!;
         private TrainingProviderService _sut = null!;
-        private TrainingProviderApiClientConfiguration _settings = null!;
         private Mock<IConfiguration> _configuration = null!;
 
         [SetUp]
@@ -27,11 +25,6 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
             _mockHttpsMessageHandler = new Mock<HttpMessageHandler>();
             _configuration = new Mock<IConfiguration>();
             _configuration.SetupGet(x => x[It.Is<string>(s => s == "EnvironmentName")]).Returns("TEST");
-            _settings = _fixture
-                .Build<TrainingProviderApiClientConfiguration>()
-                .With(x => x.ApiBaseUrl, OuterApiBaseAddress)
-                .With(x => x.IdentifierUri, "")
-                .Create();
         }
 
         [Test]
@@ -53,66 +46,13 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
             {
                 BaseAddress = new Uri(OuterApiBaseAddress),
             };
-            _sut = new TrainingProviderService(httpClient, _settings);
+            _sut = new TrainingProviderService(httpClient);
 
             // Act
-            var actual = await _sut.GetProviderDetails(ukprn);
+            var actual = await _sut.CanProviderAccessService(ukprn);
 
             // Assert
-            actual.Should().BeEquivalentTo(expected);
-        }
-
-        [Test]
-        public async Task When_ProviderDetails_NotFound_Then_Data_FromOuterApiIsNotFound()
-        {
-            // Arrange
-            var ukprn = _fixture.Create<long>();
-            _mockHttpsMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.NotFound,
-                    Content = new StringContent(""),
-                    RequestMessage = new HttpRequestMessage()
-                });
-            var httpClient = new HttpClient(_mockHttpsMessageHandler.Object)
-            {
-                BaseAddress = new Uri(OuterApiBaseAddress),
-            };
-            _sut = new TrainingProviderService(httpClient, _settings);
-
-            // Act
-            var actual = await _sut.GetProviderDetails(ukprn);
-
-            // Assert
-            actual.Should().BeNull();
-        }
-
-        [Test]
-        public async Task When_ProviderDetails_InternalServerError_Then_Data_FromOuterApiIsNotFound()
-        {
-            // Arrange
-            var ukprn = _fixture.Create<long>();
-
-            _mockHttpsMessageHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.InternalServerError,
-                    Content = new StringContent(""),
-                    RequestMessage = new HttpRequestMessage()
-                });
-            var httpClient = new HttpClient(_mockHttpsMessageHandler.Object)
-            {
-                BaseAddress = new Uri(OuterApiBaseAddress),
-            };
-            _sut = new TrainingProviderService(httpClient, _settings);
-
-            // Act
-            var actual = await _sut.GetProviderDetails(ukprn);
-
-            // Assert
-            actual.Should().BeNull();
+            actual.Should().Be(expected.CanAccessService);
         }
     }
 }
