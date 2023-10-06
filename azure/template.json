@@ -62,10 +62,7 @@
       },
       "logAnalyticsWorkspaceName": {
         "type": "string"
-      },
-      "UseStubProviderValidation": {
-        "type": "string"
-      },
+      },      
       "utcValue": {
         "type": "string",
         "defaultValue": "[utcNow()]"
@@ -196,11 +193,7 @@
                               {
                                 "name": "LoggingRedisKey",
                                 "value": "[parameters('loggingRedisKey')]"
-                              },
-                              {
-                                "name": "UseStubProviderValidation",
-                                "value": "[parameters('useStubProviderValidation')]"
-                              }
+                              }                              
                             ]
                         }
                     },

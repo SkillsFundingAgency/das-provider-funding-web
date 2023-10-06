@@ -32,7 +32,7 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Services
         {
             // Arrange
             var ukprn = _fixture.Create<long>();
-            var expected = _fixture.Create<GetProviderSummaryResult>();
+            var expected = _fixture.Create<ProviderAccountResponse>();
 
             _mockHttpsMessageHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())

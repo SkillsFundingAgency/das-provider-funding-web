@@ -20,7 +20,7 @@ namespace SFA.DAS.ProviderFunding.Web.Services
 
             using var response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
 
-            var data = await JsonSerializer.DeserializeAsync<GetProviderSummaryResult>(
+            var data = await JsonSerializer.DeserializeAsync<ProviderAccountResponse>(
                 await response.Content.ReadAsStreamAsync(),
                 options: new JsonSerializerOptions
                 {

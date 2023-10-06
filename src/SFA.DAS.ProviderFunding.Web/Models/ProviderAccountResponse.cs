@@ -2,12 +2,9 @@
 
 namespace SFA.DAS.ProviderFunding.Web.Models
 {
-    
-    public class GetProviderSummaryResult
+    public class ProviderAccountResponse
     {
         [JsonPropertyName("canAccessService")]
         public bool CanAccessService { get; set; }
-        
     }
-
 }

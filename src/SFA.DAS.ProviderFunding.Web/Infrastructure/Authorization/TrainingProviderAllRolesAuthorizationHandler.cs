@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication;
 using Microsoft.Extensions.Configuration;
 using SFA.DAS.Provider.Shared.UI.Models;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
 {
@@ -12,31 +13,54 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
         private readonly ITrainingProviderAuthorizationHandler _handler;
         private readonly IConfiguration _configuration;
         private readonly ProviderSharedUIConfiguration _providerSharedUiConfiguration;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public TrainingProviderAllRolesAuthorizationHandler(
             ITrainingProviderAuthorizationHandler handler,
             IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor,
             ProviderSharedUIConfiguration providerSharedUiConfiguration)
         {
             _handler = handler;
-            _httpContextAccessor = httpContextAccessor;
             _providerSharedUiConfiguration = providerSharedUiConfiguration;
             _configuration = configuration;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, TrainingProviderAllRolesRequirement requirement)
         {
+            HttpContext currentContext;
+            switch (context.Resource)
+            {
+                case HttpContext resource:
+                    currentContext = resource;
+                    break;
+                case AuthorizationFilterContext authorizationFilterContext:
+                    currentContext = authorizationFilterContext.HttpContext;
+                    break;
+                default:
+                    currentContext = null;
+                    break;
+            }
+
+            if (!context.User.HasClaim(c => c.Type.Equals(ProviderClaims.ProviderUkprn)))
+            {
+                context.Fail();
+                return;
+            }
+
+            var claimValue = context.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn))?.Value;
+
+            if (!int.TryParse(claimValue, out var ukprn))
+            {
+                context.Fail();
+                return;
+            }
+
             var isStubProviderValidationEnabled = GetUseStubProviderValidationSetting();
 
             // check if the stub is activated to by-pass the validation. Mostly used for local development purpose.
             // logic to check if the provider is authorized if not redirect the user to PAS 401 un-authorized page.
             if (!isStubProviderValidationEnabled && !(await _handler.IsProviderAuthorized(context)))
             {
-                var httpContext = _httpContextAccessor.HttpContext;
-                httpContext?.Response.Redirect($"{_providerSharedUiConfiguration.DashboardUrl}/error/401");
-                
+                currentContext?.Response.Redirect($"{_providerSharedUiConfiguration.DashboardUrl}/error/401");
             }
 
             context.Succeed(requirement);
