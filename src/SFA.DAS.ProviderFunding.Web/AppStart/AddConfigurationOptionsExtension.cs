@@ -14,8 +14,6 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
             services.AddOptions();
             services.Configure<FundingOuterApiOptions>(configuration.GetSection("FundingOuterApiConfiguration"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<FundingOuterApiOptions>>()!.Value);
-            services.Configure<TrainingProviderApiClientConfiguration>(configuration.GetSection("TrainingProviderApiConfiguration"));
-            services.AddSingleton(cfg => cfg.GetService<IOptions<TrainingProviderApiClientConfiguration>>()!.Value);
             services.Configure<ProviderIdams>(configuration.GetSection("ProviderIdams"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<ProviderIdams>>().Value);
         }
