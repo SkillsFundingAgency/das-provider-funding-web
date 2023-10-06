@@ -48,7 +48,7 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
 
             var claimValue = context.User.FindFirst(c => c.Type.Equals(ProviderClaims.ProviderUkprn))?.Value;
 
-            if (!int.TryParse(claimValue, out var ukprn))
+            if (!int.TryParse(claimValue, out _))
             {
                 context.Fail();
                 return;
@@ -60,7 +60,7 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization
             // logic to check if the provider is authorized if not redirect the user to PAS 401 un-authorized page.
             if (!isStubProviderValidationEnabled && !(await _handler.IsProviderAuthorized(context)))
             {
-                currentContext?.Response.Redirect($"{_providerSharedUiConfiguration.DashboardUrl}/error/401");
+                currentContext?.Response.Redirect($"{_providerSharedUiConfiguration.DashboardUrl}/error/403/invalid-status");
             }
 
             context.Succeed(requirement);
