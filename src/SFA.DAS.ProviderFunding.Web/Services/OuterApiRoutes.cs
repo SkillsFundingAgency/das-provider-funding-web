@@ -13,5 +13,10 @@ public static class OuterApiRoutes
         {
             return $"{ukprn}/detail";
         }
+
+        public static string GetProviderDetails(long ukprn)
+        {
+            return $"provideraccounts/{ukprn}";
+        }
     }
 }

@@ -48,6 +48,7 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
         
         [TestCase(null)]
         [TestCase(401)]
+        [TestCase(503)]
         [TestCase(405)]
         public void WhenStatusCodeIsNotHandledThenGenericErrorViewIsReturned(int? errorCode)
         {
