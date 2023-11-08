@@ -12,7 +12,7 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
         public static void AddConfigurationOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
-            services.Configure<ProviderFunding.Infrastructure.Configuration.FundingOuterApiOptions>(configuration.GetSection("FundingOuterApiConfiguration"));
+            services.Configure<FundingOuterApiOptions>(configuration.GetSection("FundingOuterApiConfiguration"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<FundingOuterApiOptions>>()!.Value);
             services.Configure<ProviderIdams>(configuration.GetSection("ProviderIdams"));
             services.AddSingleton(cfg => cfg.GetService<IOptions<ProviderIdams>>().Value);

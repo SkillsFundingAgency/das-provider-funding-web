@@ -7,7 +7,6 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
     [ExcludeFromCodeCoverage]
     public static class AuthorizationServicePolicyExtension
     {
-
         private const string ProviderDaa = "DAA";
         private const string ProviderDab = "DAB";
         private const string ProviderDac = "DAC";
@@ -18,17 +17,16 @@ namespace SFA.DAS.ProviderFunding.Web.AppStart
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(
-                    PolicyNames
-                        .HasProviderAccount
-                    , policy =>
+                    PolicyNames.HasProviderAccount,
+                    policy =>
                     {
                         policy.RequireAuthenticatedUser();
                         policy.RequireClaim(ProviderClaims.ProviderUkprn);
                         policy.RequireClaim(ProviderClaims.Service, ProviderDaa, ProviderDab, ProviderDac, ProviderDav);
                         policy.Requirements.Add(new ProviderUkPrnRequirement());
+                        policy.Requirements.Add(new TrainingProviderAllRolesRequirement());
                     });
             });
         }
     }
-
 }
