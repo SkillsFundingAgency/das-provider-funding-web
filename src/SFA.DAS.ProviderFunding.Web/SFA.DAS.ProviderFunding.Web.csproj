@@ -15,9 +15,8 @@
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.16" />
         <PackageReference Include="SFA.DAS.Configuration.AzureTableStorage" Version="3.0.84" />
         <PackageReference Include="SFA.DAS.DfESignIn.Auth" Version="17.1.61" />
-        <PackageReference Include="SFA.DAS.Provider.Shared.UI" Version="2.0.28" />
+        <PackageReference Include="SFA.DAS.Provider.Shared.UI" Version="2.0.30" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.0" />
-        <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
         <PackageReference Include="WebEssentials.AspNetCore.CdnTagHelpers" Version="1.0.21" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.26" />
     </ItemGroup>
