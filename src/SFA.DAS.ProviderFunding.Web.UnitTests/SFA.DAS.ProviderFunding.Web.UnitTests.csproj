@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.24" />
     <PackageReference Include="Moq" Version="4.20.70" />
+    <PackageReference Include="NuGet.Packaging" Version="6.9.1" />
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="NUnit.Analyzers" Version="3.5.0">
