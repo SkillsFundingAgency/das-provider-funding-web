@@ -65,8 +65,8 @@ namespace SFA.DAS.ProviderFunding.Web.UnitTests.Controllers
             var result = await _sut.GenerateCSV(ukprn);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsInstanceOf<FileStreamResult>(result);
+            result.Should().NotBeNull();
+            result.Should().BeAssignableTo<FileStreamResult>();
         }
     }
 }
