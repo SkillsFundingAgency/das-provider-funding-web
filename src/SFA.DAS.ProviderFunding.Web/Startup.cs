@@ -18,6 +18,7 @@ using SFA.DAS.Provider.Shared.UI.Models;
 using SFA.DAS.Provider.Shared.UI.Startup;
 using SFA.DAS.ProviderFunding.Infrastructure.Configuration;
 using SFA.DAS.ProviderFunding.Web.AppStart;
+using SFA.DAS.ProviderFunding.Web.Extensions;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
@@ -81,6 +82,8 @@ namespace SFA.DAS.ProviderFunding.Web
                     services.AddAndConfigureProviderAuthentication(providerConfig);
                 }
             }
+
+            BearerTokenProvider.SetSigningKey(_configuration["UserBearerTokenSigningKey"]);
 
             services.Configure<IISServerOptions>(options => { options.AutomaticAuthentication = false; });
 
