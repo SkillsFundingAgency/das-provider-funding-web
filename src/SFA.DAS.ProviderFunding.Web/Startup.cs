@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.DfESignIn.Auth.AppStart;
+using SFA.DAS.DfESignIn.Auth.Enums;
 using SFA.DAS.Provider.Shared.UI;
 using SFA.DAS.Provider.Shared.UI.Models;
 using SFA.DAS.Provider.Shared.UI.Startup;
@@ -68,7 +69,7 @@ namespace SFA.DAS.ProviderFunding.Web
                         _configuration,
                         "SFA.DAS.ProviderApprenticeshipService",
                         typeof(CustomServiceRole),
-                        "ProviderRoATP",
+                        ClientName.ProviderRoatp,
                         "/signout",
                         "");    
                 }
