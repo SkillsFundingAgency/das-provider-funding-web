@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using SFA.DAS.Http;
@@ -15,7 +16,7 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure
     {
         public static IServiceCollection AddOuterApiServices(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddClient<IProviderEarningsService>((client, _) => new ProviderEarningsService(client));
+            serviceCollection.AddClient<IProviderEarningsService>((client, sp) => new ProviderEarningsService(client, sp.GetService<IHttpContextAccessor>()));
             serviceCollection.AddClient<ITrainingProviderService>((client, _) => new TrainingProviderService(client));
             return serviceCollection;
         }
