@@ -51,6 +51,7 @@ namespace SFA.DAS.ProviderFunding.Web.Infrastructure
                 httpClient.BaseAddress = new Uri(settings.ApiBaseUrl);
                 httpClient.DefaultRequestHeaders.Remove("X-Version");
                 httpClient.DefaultRequestHeaders.Add("X-Version", settings.ApiVersion);
+                httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", settings.SubscriptionKey);
 
                 return instance.Invoke(httpClient, s);
             });
