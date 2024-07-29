@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using SFA.DAS.ProviderFunding.Web.Extensions;
 using System.Net.Http;
 using System.Text.Json;
@@ -22,7 +21,7 @@ public class ProviderEarningsService : IProviderEarningsService
     {
         var url = OuterApiRoutes.Provider.GetEarningsSummary(ukprn);
 
-        using var response = await _client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
+        using var response = await _client.SendAsync(url.ToRequestMessageWithBearerToken(_httpContextAccessor), HttpCompletionOption.ResponseHeadersRead);
 
         response.EnsureSuccessStatusCode();
 
@@ -36,11 +35,7 @@ public class ProviderEarningsService : IProviderEarningsService
     {
         var url = OuterApiRoutes.Provider.GetAcademicYearEarnings(ukprn);
 
-        var token = _httpContextAccessor.HttpContext!.GetBearerToken();
-        var requestMessage = new HttpRequestMessage(HttpMethod.Get, url);
-        requestMessage.Headers.Add("Authorization", $"Bearer {token}");
-
-        using var response = await _client.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
+        using var response = await _client.SendAsync(url.ToRequestMessageWithBearerToken(_httpContextAccessor), HttpCompletionOption.ResponseHeadersRead);
 
         response.EnsureSuccessStatusCode();
 
