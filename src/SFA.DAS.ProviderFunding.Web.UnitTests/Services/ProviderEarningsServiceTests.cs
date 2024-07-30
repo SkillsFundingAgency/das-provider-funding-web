@@ -74,11 +74,10 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
 
             // Create a list of claims for the authenticated user
             var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, "Test User"),
-            new Claim(ClaimTypes.NameIdentifier, "1"),
-            // Add more claims as needed for testing
-        };
+            {
+                new(ClaimTypes.Name, "Test User"),
+                new(ClaimTypes.NameIdentifier, "1")
+            };
 
             // Setup the ClaimsPrincipal to return the authenticated user
             claimsPrincipalMock.Setup(m => m.Identity!.IsAuthenticated).Returns(true);
