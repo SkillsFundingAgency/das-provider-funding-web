@@ -1,7 +1,12 @@
 ﻿using AutoFixture;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Moq;
+using Moq.Protected;
 using RichardSzalay.MockHttp;
+using SFA.DAS.ProviderFunding.Web.Extensions;
 using SFA.DAS.ProviderFunding.Web.Services;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace SFA.DAS.ProviderFunding.Web.Tests.Services
@@ -12,6 +17,7 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
         private MockHttpMessageHandler _mockHttp = null!;
         private Fixture _fixture = null!;
         private IProviderEarningsService _sut = null!;
+        private Mock<IHttpContextAccessor> _mockHttpContextAccessor = null!;
 
         [SetUp]
         public void SetUp()
@@ -20,8 +26,9 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
             _mockHttp = new MockHttpMessageHandler();
             var client = new HttpClient(_mockHttp);
             client.BaseAddress = new Uri(OuterApiBaseAddress);
+            _mockHttpContextAccessor = GetMockIHttpContextAccessor();
 
-            _sut = new ProviderEarningsService(client);
+            _sut = new ProviderEarningsService(client, _mockHttpContextAccessor.Object);
         }
 
         [Test]
@@ -58,5 +65,28 @@ namespace SFA.DAS.ProviderFunding.Web.Tests.Services
             actual.Should().BeEquivalentTo(expected.AcademicYearEarnings);
         }
 
+        private static Mock<IHttpContextAccessor> GetMockIHttpContextAccessor()
+        {
+            BearerTokenProvider.SetSigningKey("abcdefghijklmnopqrstuv123456789==");
+
+            var contextMock = new Mock<HttpContext>();
+            var claimsPrincipalMock = new Mock<ClaimsPrincipal>();
+
+            // Create a list of claims for the authenticated user
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.Name, "Test User"),
+                new(ClaimTypes.NameIdentifier, "1")
+            };
+
+            // Setup the ClaimsPrincipal to return the authenticated user
+            claimsPrincipalMock.Setup(m => m.Identity!.IsAuthenticated).Returns(true);
+            claimsPrincipalMock.Setup(m => m.Claims).Returns(claims);
+
+            contextMock.Setup(ctx => ctx.User).Returns(claimsPrincipalMock.Object);
+            var contextAccessorMock = new Mock<IHttpContextAccessor>();
+            contextAccessorMock.Setup(x => x.HttpContext).Returns(contextMock.Object);
+            return contextAccessorMock;
+        }
     }
 }
