@@ -48,6 +48,7 @@ jobs:
             TargetFileName: '*.schema.json'
             TableName: Configuration
             ConfigurationSecrets:
+              UserBearerTokenSigningKey: $(UserBearerTokenSigningKey)
               FundingApimSubscriptionKey: $(FundingApimSubscriptionKey)
         - template: azure-pipelines-templates/deploy/step/app-deploy.yml@das-platform-building-blocks
           parameters:
