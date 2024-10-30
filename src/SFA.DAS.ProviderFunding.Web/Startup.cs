@@ -123,6 +123,8 @@ namespace SFA.DAS.ProviderFunding.Web
 #endif
             services.AddOuterApiServices();
             services.AddOtherServices();
+
+            services.AddDataProtection(_configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
