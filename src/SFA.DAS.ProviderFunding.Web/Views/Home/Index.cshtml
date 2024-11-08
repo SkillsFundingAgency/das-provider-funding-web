@@ -29,7 +29,13 @@
     </div>
 </div>
 
-<h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-0">Estimated earnings for academic year 2022 to 2023</h2>
+@{
+    int currentYear = DateTime.Now.Year;
+    int startYear = DateTime.Now.Month >= 8 ? currentYear : currentYear - 1;
+    int endYear = startYear + 1;
+}
+
+<h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-0">Estimated earnings for academic year @startYear to @endYear</h2>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p>These estimates only include earnings from apprentices on the Payments Simplification private Beta.</p>
