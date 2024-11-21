@@ -15,7 +15,7 @@ using System.Text;
 namespace SFA.DAS.ProviderFunding.Web.Controllers
 {
     [Authorize(Policy = nameof(PolicyNames.HasProviderAccount))]
-    [SetNavigationSection(NavigationSection.EmployerDemand)]
+    [SetNavigationSection(NavigationSection.Home)]
     [Route("{ukprn}")]
     public class HomeController : Controller
     {
