@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +9,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SFA.DAS.Configuration.AzureTableStorage;
 using SFA.DAS.DfESignIn.Auth.AppStart;
 using SFA.DAS.DfESignIn.Auth.Enums;
 using SFA.DAS.Provider.Shared.UI;
@@ -22,7 +20,6 @@ using SFA.DAS.ProviderFunding.Web.Extensions;
 using SFA.DAS.ProviderFunding.Web.Infrastructure;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authentication;
 using SFA.DAS.ProviderFunding.Web.Infrastructure.Authorization;
-using SFA.DAS.ProviderFunding.Web.Services;
 
 namespace SFA.DAS.ProviderFunding.Web
 {
@@ -72,7 +69,7 @@ namespace SFA.DAS.ProviderFunding.Web
                         typeof(CustomServiceRole),
                         ClientName.ProviderRoatp,
                         "/signout",
-                        "");    
+                        "");
                 }
                 else
                 {
@@ -99,7 +96,6 @@ namespace SFA.DAS.ProviderFunding.Web
                 })
                 .SetDefaultNavigationSection(NavigationSection.Home)
                 .EnableGoogleAnalytics()
-                .SetDfESignInConfiguration(useDfESignIn)
                 .SetZenDeskConfiguration(_configuration.GetSection("ProviderZenDeskSettings").Get<ZenDeskConfiguration>());
 
             if (!_configuration.IsDev() && !_configuration.IsLocal())
